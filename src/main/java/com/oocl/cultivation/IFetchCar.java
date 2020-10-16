@@ -1,4 +1,4 @@
 package com.oocl.cultivation;
 
-public interface IFetch {
+public interface IFetchCar {
 }
