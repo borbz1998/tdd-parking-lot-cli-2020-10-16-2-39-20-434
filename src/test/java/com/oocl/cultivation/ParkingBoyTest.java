@@ -61,10 +61,9 @@ class ParkingBoyTest {
         ParkingTicket wrongTicket = new ParkingTicket();
 
         //when
-        Car fetchCar = parkingBoy.fetch(wrongTicket);
 
         //then
-        assertNull(fetchCar);
+        assertThrows(WrongTicketException.class, () -> parkingBoy.fetch(wrongTicket));
     }
 
     @Test
