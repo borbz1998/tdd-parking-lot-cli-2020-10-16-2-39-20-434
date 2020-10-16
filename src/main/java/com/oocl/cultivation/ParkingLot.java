@@ -14,16 +14,14 @@ public class ParkingLot {
         this.parkingLotCapacity = parkingLotCapacity;
     }
 
-    public ParkingLot() {
-    }
-
     public ParkingTicket park(Car car) {
         if(!isParkingLotMapFull()) {
             ParkingTicket parkingTicket = new ParkingTicket();
             parkingLotMap.put(parkingTicket, car);
             return parkingTicket;
         }
-        return null;
+        else
+         throw new NoParkingLotSpaceException("Please provide your parking ticket!");
     }
 
     public Car fetch(ParkingTicket parkingTicket) {

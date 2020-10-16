@@ -107,8 +107,8 @@ class ParkingBoyTest {
         ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
 
         //when
-        parkingBoy.park(firstCar);
-        parkingBoy.park(secondCar);
+        ParkingTicket parkingTicket = parkingBoy.park(firstCar);
+//        parkingBoy.park(secondCar);
 
         //then
         assertThrows(NoParkingLotSpaceException.class, () -> parkingBoy.park(secondCar));

@@ -1,6 +1,6 @@
 package com.oocl.cultivation;
 
-public class NoParkingLotSpaceException extends Throwable {
+public class NoParkingLotSpaceException extends RuntimeException {
     public NoParkingLotSpaceException(String s) {
     }
 }
