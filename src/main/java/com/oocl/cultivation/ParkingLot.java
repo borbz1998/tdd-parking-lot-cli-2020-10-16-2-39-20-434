@@ -3,33 +3,44 @@ package com.oocl.cultivation;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ParkingLot {
+import static java.util.Objects.isNull;
 
+public class ParkingLot {
+    private int parkingLotCapacity;
     private Map<ParkingTicket, Car> parkingLotMap = new HashMap<>();
 
-    public ParkingLot(Map<ParkingTicket, Car> parkingLotMap) {
-        this.parkingLotMap = parkingLotMap;
+    public ParkingLot(int parkingLotCapacity) {
+        this.parkingLotMap = new HashMap<>();
+        this.parkingLotCapacity = parkingLotCapacity;
     }
 
     public ParkingLot() {
     }
 
     public ParkingTicket park(Car car) {
-        ParkingTicket parkingTicket = new ParkingTicket();
-        parkingLotMap.put(parkingTicket, car);
-        return parkingTicket;
+        if(!isParkingLotMapFull()) {
+            ParkingTicket parkingTicket = new ParkingTicket();
+            parkingLotMap.put(parkingTicket, car);
+            return parkingTicket;
+        }
+        return null;
     }
 
     public Car fetch(ParkingTicket parkingTicket) {
-        return parkingLotMap.getOrDefault(parkingTicket, null);
+        if(isNull(parkingTicket)) {
+            throw new NoTicketException("Please provide your parking ticket!");
+        }
+        else if (parkingLotMap.containsKey(parkingTicket)){
+            throw new WrongTicketException("Unrecognized Parking Ticket!");
+        }
+       return parkingLotMap.get(parkingTicket);
     }
 
-    public void removeCarFromParkingLot(ParkingTicket parkingTicket){
+    public void removeCarFromParkingLot(ParkingTicket parkingTicket) {
         parkingLotMap.remove(parkingTicket);
     }
 
-    public void checkParkingLotMap(){
-//        if(parkingLotMap.size() == park)
-
+    public Boolean isParkingLotMapFull() {
+        return parkingLotMap.size() >= parkingLotCapacity;
     }
 }
