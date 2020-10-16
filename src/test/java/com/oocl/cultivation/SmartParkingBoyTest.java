@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SmartParkingBoyTest {
+class SmartSmartParkingBoyTest {
     private List<ParkingLot> listOfMap;
     private Car car;
 
@@ -22,10 +22,10 @@ class SmartParkingBoyTest {
     @Test
     void should_return_a_parking_ticket_when_parking_given_a_car_to_parking_boy() {
         //given
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(listOfMap));
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(new ParkingLot(listOfMap));
 
         //when
-        ParkingTicket parkingTicket = parkingBoy.park(car);
+        ParkingTicket parkingTicket = smartParkingBoy.park(car);
 
         //then
         assertNotNull(parkingTicket);
@@ -34,11 +34,11 @@ class SmartParkingBoyTest {
     @Test
     public void should_return_correct_car_when_fetching_given_a_ticket() {
         //given
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(listOfMap));
-        ParkingTicket parkingTicket = parkingBoy.park(car);
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(new ParkingLot(listOfMap));
+        ParkingTicket parkingTicket = smartParkingBoy.park(car);
 
         //when
-        Car fetchCar = parkingBoy.fetch(parkingTicket);
+        Car fetchCar = smartParkingBoy.fetch(parkingTicket);
 
         //then
         assertSame(car, fetchCar);
@@ -48,13 +48,13 @@ class SmartParkingBoyTest {
     public void should_return_two_cars_when_fetching_given_two_correct_tickets() {
         //given
         Car secondCar = new Car();
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(listOfMap));
-        ParkingTicket parkingTicket1 = parkingBoy.park(car);
-        ParkingTicket parkingTicket2 = parkingBoy.park(secondCar);
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(new ParkingLot(listOfMap));
+        ParkingTicket parkingTicket1 = smartParkingBoy.park(car);
+        ParkingTicket parkingTicket2 = smartParkingBoy.park(secondCar);
 
         //when
-        Car fetchFirstCar = parkingBoy.fetch(parkingTicket1);
-        Car fetchSecondCar = parkingBoy.fetch(parkingTicket2);
+        Car fetchFirstCar = smartParkingBoy.fetch(parkingTicket1);
+        Car fetchSecondCar = smartParkingBoy.fetch(parkingTicket2);
 
         //then
         assertSame(car, fetchFirstCar);
@@ -65,44 +65,44 @@ class SmartParkingBoyTest {
     public void should_return_WrongTicketException_when_fetch_given_wrong_ticket() {
         //given
         Car car = new Car();
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(listOfMap));
-        parkingBoy.park(car);
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(new ParkingLot(listOfMap));
+        smartParkingBoy.park(car);
         ParkingTicket wrongTicket = new ParkingTicket();
 
         //when
 
 
         //then
-        assertThrows(WrongTicketException.class, () -> parkingBoy.fetch(wrongTicket), "Unrecognized Parking Ticket!");
+        assertThrows(WrongTicketException.class, () -> smartParkingBoy.fetch(wrongTicket), "Unrecognized Parking Ticket!");
     }
 
     @Test
     public void should_return_NoTicketException_when_fetch_given_no_ticket() {
         //given
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(listOfMap));
-        parkingBoy.park(car);
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(new ParkingLot(listOfMap));
+        smartParkingBoy.park(car);
         ParkingTicket noTicket = null;
 
         //when
 
         //then
-        assertThrows(NoTicketException.class, () -> parkingBoy.fetch(noTicket), "Please provide your parking ticket!");
+        assertThrows(NoTicketException.class, () -> smartParkingBoy.fetch(noTicket), "Please provide your parking ticket!");
     }
 
     @Test
     public void should_return_WrongTicketException_when_fetch_a_car_given_used_ticket() {
         //given
         ParkingLot parkingLot = new ParkingLot(listOfMap);
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
-        ParkingTicket parkingTicket = parkingBoy.park(car);
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLot);
+        ParkingTicket parkingTicket = smartParkingBoy.park(car);
 
         //when
-        Car fetchCarFirstTime = parkingBoy.fetch(parkingTicket);
+        Car fetchCarFirstTime = smartParkingBoy.fetch(parkingTicket);
         parkingLot.removeCarFromParkingLot(parkingTicket, listOfMap);
 
         //then
         assertSame(car, fetchCarFirstTime);
-        assertThrows(WrongTicketException.class, () -> parkingBoy.fetch(parkingTicket), "Unrecognized Parking Ticket!");
+        assertThrows(WrongTicketException.class, () -> smartParkingBoy.fetch(parkingTicket), "Unrecognized Parking Ticket!");
     }
 
     @Test
@@ -111,14 +111,14 @@ class SmartParkingBoyTest {
         ParkingLot parkingLot = new ParkingLot(1);
         List<ParkingLot> parkingLotLists = new ArrayList<>();
         parkingLotLists.add(parkingLot);
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(parkingLotLists));
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(new ParkingLot(parkingLotLists));
         Car secondCar = new Car();
 
         //when
-        ParkingTicket parkingTicket = parkingBoy.park(car);
+        ParkingTicket parkingTicket = smartParkingBoy.park(car);
 
         //then
-        assertThrows(NoParkingLotSpaceException.class, () -> parkingBoy.park(secondCar), "Not Enough Position.");
+        assertThrows(NoParkingLotSpaceException.class, () -> smartParkingBoy.park(secondCar), "Not Enough Position.");
     }
 
     @Test
@@ -133,14 +133,14 @@ class SmartParkingBoyTest {
 
 
         ParkingLot parkingLot = new ParkingLot(listOfMaps);
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLot);
 
         //when
-        parkingBoy.park(car);
-        ParkingTicket parkingTicket2 = parkingBoy.park(secondCar);
+        smartParkingBoy.park(car);
+        ParkingTicket parkingTicket2 = smartParkingBoy.park(secondCar);
 
         //then
         assertNotNull(parkingTicket2);
-        assertSame(secondCar, parkingBoy.fetch(parkingTicket2));
+        assertSame(secondCar, smartParkingBoy.fetch(parkingTicket2));
     }
 }
