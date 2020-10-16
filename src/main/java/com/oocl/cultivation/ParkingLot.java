@@ -15,6 +15,9 @@ public class ParkingLot {
 
     public Car fetch(ParkingTicket parkingTicket) {
         return parkingLotMap.containsKey(parkingTicket) ? parkingLotMap.get(parkingTicket) : null;
+    }
 
+    public void removeCarFromParkingLot(ParkingTicket parkingTicket){
+        parkingLotMap.remove(parkingTicket);
     }
 }

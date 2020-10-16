@@ -87,16 +87,18 @@ class ParkingBoyTest {
     public void should_return_no_car_when_fetch_a_car_given_used_ticket() {
         //given
         Car car = new Car();
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot());
+        ParkingLot parkingLot = new ParkingLot();
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
         ParkingTicket parkingTicket = parkingBoy.park(car);
 
         //when
         Car fetchCarFirstTime = parkingBoy.fetch(parkingTicket);
+        parkingLot.removeCarFromParkingLot(parkingTicket);
         Car fetCarWithUsedTicket = parkingBoy.fetch(parkingTicket);
 
         //then
         assertSame(car, fetchCarFirstTime);
         assertNull(fetCarWithUsedTicket);
-
     }
+    
 }
