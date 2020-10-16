@@ -3,8 +3,7 @@ package com.oocl.cultivation;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ParkingBoyTest {
 
@@ -63,10 +62,24 @@ class ParkingBoyTest {
         ParkingTicket wrongTicket = new ParkingTicket();
 
         //when
-        Car fetchFirstCar = parkingBoy.fetch(wrongTicket);
+        Car fetchCar = parkingBoy.fetch(wrongTicket);
         
         //then
-        assertSame(null, fetchFirstCar);
-        
+        assertNull(fetchCar);
+    }
+
+    @Test
+    public void should_return_no_car_when_fetch_given_no_ticket() {
+        //given
+        Car car = new Car();
+        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot());
+        ParkingTicket parkingTicket = parkingBoy.park(car);
+        ParkingTicket noTicket = null;
+
+        //when
+        Car fetchCar = parkingBoy.fetch(noTicket);
+
+        //then
+        assertNull(fetchCar);
     }
 }
