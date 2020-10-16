@@ -7,6 +7,13 @@ public class ParkingLot {
 
     private Map<ParkingTicket, Car> parkingLotMap = new HashMap<>();
 
+    public ParkingLot(Map<ParkingTicket, Car> parkingLotMap) {
+        this.parkingLotMap = parkingLotMap;
+    }
+
+    public ParkingLot() {
+    }
+
     public ParkingTicket park(Car car) {
         ParkingTicket parkingTicket = new ParkingTicket();
         parkingLotMap.put(parkingTicket, car);
@@ -14,10 +21,15 @@ public class ParkingLot {
     }
 
     public Car fetch(ParkingTicket parkingTicket) {
-        return parkingLotMap.containsKey(parkingTicket) ? parkingLotMap.get(parkingTicket) : null;
+        return parkingLotMap.getOrDefault(parkingTicket, null);
     }
 
     public void removeCarFromParkingLot(ParkingTicket parkingTicket){
         parkingLotMap.remove(parkingTicket);
+    }
+
+    public void checkParkingLotMap(){
+//        if(parkingLotMap.size() == park)
+
     }
 }
