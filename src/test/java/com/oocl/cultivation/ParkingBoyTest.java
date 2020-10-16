@@ -58,7 +58,7 @@ class ParkingBoyTest {
         //given
         Car car = new Car();
         ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot());
-        ParkingTicket parkingTicket = parkingBoy.park(car);
+//        ParkingTicket parkingTicket = parkingBoy.park(car);
         ParkingTicket wrongTicket = new ParkingTicket();
 
         //when
@@ -73,7 +73,7 @@ class ParkingBoyTest {
         //given
         Car car = new Car();
         ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot());
-        ParkingTicket parkingTicket = parkingBoy.park(car);
+//        ParkingTicket parkingTicket = parkingBoy.park(car);
         ParkingTicket noTicket = null;
 
         //when
@@ -81,5 +81,22 @@ class ParkingBoyTest {
 
         //then
         assertNull(fetchCar);
+    }
+
+    @Test
+    public void should_return_no_car_when_fetch_a_car_given_used_ticket() {
+        //given
+        Car car = new Car();
+        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot());
+        ParkingTicket parkingTicket = parkingBoy.park(car);
+
+        //when
+        Car fetchCarFirstTime = parkingBoy.fetch(parkingTicket);
+        Car fetCarWithUsedTicket = parkingBoy.fetch(parkingTicket);
+
+        //then
+        assertSame(car, fetchCarFirstTime);
+        assertNull(fetCarWithUsedTicket);
+
     }
 }
