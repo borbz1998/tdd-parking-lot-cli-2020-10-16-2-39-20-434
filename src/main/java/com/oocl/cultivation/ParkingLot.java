@@ -30,7 +30,7 @@ public class ParkingLot {
         if(isNull(parkingTicket)) {
             throw new NoTicketException("Please provide your parking ticket!");
         }
-        else if (parkingLotMap.containsKey(parkingTicket)){
+        else if (!(parkingLotMap.containsKey(parkingTicket))){
             throw new WrongTicketException("Unrecognized Parking Ticket!");
         }
        return parkingLotMap.get(parkingTicket);
