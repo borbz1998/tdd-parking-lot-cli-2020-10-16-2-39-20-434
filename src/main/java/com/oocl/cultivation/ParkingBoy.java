@@ -8,6 +8,6 @@ public class ParkingBoy {
     }
 
     public ParkingTicket park(Car car) {
-        return null;
+        return parkingLot.park(car);
     }
 }
