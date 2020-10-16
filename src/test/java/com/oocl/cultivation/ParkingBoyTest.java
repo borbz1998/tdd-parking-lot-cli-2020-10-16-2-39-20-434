@@ -108,10 +108,10 @@ class ParkingBoyTest {
 
         //when
         parkingBoy.park(firstCar);
-        ParkingTicket parkingTicket2 = parkingBoy.park(secondCar);
+        parkingBoy.park(secondCar);
 
         //then
-        assertNull(parkingTicket2);
+        assertThrows(NoParkingLotSpaceException.class, () -> parkingBoy.park(secondCar));
     }
 
 }
