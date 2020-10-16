@@ -2,6 +2,11 @@ package com.oocl.cultivation;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ParkingBoyTest {
@@ -63,7 +68,7 @@ class ParkingBoyTest {
         //when
 
         //then
-        assertThrows(WrongTicketException.class, () -> parkingBoy.fetch(wrongTicket));
+        assertThrows(WrongTicketException.class, () -> parkingBoy.fetch(wrongTicket), "Unrecognized Parking Ticket!");
     }
 
     @Test
@@ -77,7 +82,7 @@ class ParkingBoyTest {
         //when
 
         //then
-        assertThrows(NoTicketException.class, () -> parkingBoy.fetch(noTicket));
+        assertThrows(NoTicketException.class, () -> parkingBoy.fetch(noTicket), "Not Enough Position.");
     }
 
     @Test
@@ -91,11 +96,10 @@ class ParkingBoyTest {
         //when
         Car fetchCarFirstTime = parkingBoy.fetch(parkingTicket);
         parkingLot.removeCarFromParkingLot(parkingTicket);
-        Car fetchCarWithUsedTicket = parkingBoy.fetch(parkingTicket);
 
         //then
         assertSame(car, fetchCarFirstTime);
-        assertNull(fetchCarWithUsedTicket);
+        assertThrows(WrongTicketException.class, () -> parkingBoy.fetch(parkingTicket), "Unrecognized Parking Ticket!");
     }
 
     @Test
@@ -108,10 +112,30 @@ class ParkingBoyTest {
 
         //when
         ParkingTicket parkingTicket = parkingBoy.park(firstCar);
-//        parkingBoy.park(secondCar);
 
         //then
-        assertThrows(NoParkingLotSpaceException.class, () -> parkingBoy.park(secondCar));
+        assertThrows(NoParkingLotSpaceException.class, () -> parkingBoy.park(secondCar), "Please provide your parking ticket!");
+    }
+    
+    @Test
+    public void should_return_park_at_first_parking_lot_when_parking_boy_parks_a_car_given_two_parking_lot() {
+        //given
+        List<Map> listOfMap = new ArrayList<>();
+        listOfMap.add(new HashMap(1));
+        listOfMap.add(new HashMap(1));
+        Car firstCar = new Car();
+        Car secondCar = new Car();
+        ParkingLot parkingLot = new ParkingLot(listOfMap);
+
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
+        
+        //when
+        ParkingTicket parkingTicket = parkingBoy.park(firstCar);
+        ParkingTicket parkingTicket2 = parkingBoy.park(secondCar);
+
+        //then
+        assertNotNull(parkingTicket2);
+        assertSame(secondCar, parkingBoy.fetch(parkingTicket2));
     }
 
 }
