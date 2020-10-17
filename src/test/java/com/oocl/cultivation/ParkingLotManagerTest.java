@@ -148,7 +148,7 @@ class ParkingLotManagerTest {
     }
 
     @Test
-    public void should_return_park_boy_list_when_parking_lot_manager_add_new_parking_boy_given_() {
+    public void should_return_parking_boy_list_when_parking_lot_manager_add_new_parking_boy_given_there_is_parking_boy_list() {
         //given
         ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotMapList));
         ParkingBoy newParkingBoy = new ParkingBoy(new ParkingLot(parkingLotMapList));
@@ -162,6 +162,31 @@ class ParkingLotManagerTest {
 
         //then
         assertEquals(4, parkingBoyList.getParkingBoyList().size());
+    }
 
+    @Test
+    public void should_return_parking_boy_with_assigned_parking_lot_when_parking_lot_manager_assigned_parking_lot_to_parking_boy_given_there_is_parking_boy_list_and_parking_lot_maps() {
+        //given
+        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotMapList));
+        List<ParkingLot> parkingLotListByManager = new ArrayList<>();
+
+        parkingLotListByManager.add(new ParkingLot(10));
+        parkingLotListByManager.add(new ParkingLot(5));
+
+        ParkingBoyList parkingBoyList = new ParkingBoyList(
+                new ParkingBoy(new ParkingLot(parkingLotMapList)),
+                new SmartParkingBoy(new ParkingLot(parkingLotMapList)),
+                new SuperSmartParkingBoy(new ParkingLot(parkingLotMapList)));
+
+        //when
+        parkingLotManager.assignParkingLotToParkingBoy(parkingBoyList.getParkingBoyList().get(0), parkingLotListByManager);
+
+        //then
+        // Check the size of the map
+        assertEquals(1, parkingLotManager.getParkingBoyParkingLotMap().size());
+        // Check if Map is empty -- expected not null
+        assertNotNull(parkingLotManager.getParkingBoyParkingLotMap());
+        // Check if the Map with Key (First Parking Boy in the list) has value
+        assertNotNull(parkingLotManager.getParkingBoyParkingLotMap().get(parkingBoyList.getParkingBoyList().get(0)));
     }
 }
