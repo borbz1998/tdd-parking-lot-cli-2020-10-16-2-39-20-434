@@ -12,20 +12,20 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SmartParkingBoyTest {
-    private List<ParkingLot> listOfMap;
+    private List<ParkingLot> parkingLotMapList;
     private Car car;
 
     @BeforeEach
     void setUp() {
-        listOfMap = new ArrayList<>();
-        listOfMap.add(new ParkingLot(10));
+        parkingLotMapList = new ArrayList<>();
+        parkingLotMapList.add(new ParkingLot(10));
         car = new Car();
     }
 
     @Test
     void should_return_a_parking_ticket_when_parking_given_a_car_to_parking_boy() {
         //given
-        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(new ParkingLot(listOfMap));
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(new ParkingLot(parkingLotMapList));
 
         //when
         ParkingTicket parkingTicket = smartParkingBoy.park(car);
@@ -37,7 +37,7 @@ class SmartParkingBoyTest {
     @Test
     public void should_return_correct_car_when_fetching_given_a_ticket() {
         //given
-        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(new ParkingLot(listOfMap));
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(new ParkingLot(parkingLotMapList));
         ParkingTicket parkingTicket = smartParkingBoy.park(car);
 
         //when
@@ -51,7 +51,7 @@ class SmartParkingBoyTest {
     public void should_return_two_cars_when_fetching_given_two_correct_tickets() {
         //given
         Car secondCar = new Car();
-        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(new ParkingLot(listOfMap));
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(new ParkingLot(parkingLotMapList));
         ParkingTicket parkingTicket1 = smartParkingBoy.park(car);
         ParkingTicket parkingTicket2 = smartParkingBoy.park(secondCar);
 
@@ -68,7 +68,7 @@ class SmartParkingBoyTest {
     public void should_return_WrongTicketException_when_fetch_given_wrong_ticket() {
         //given
         Car car = new Car();
-        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(new ParkingLot(listOfMap));
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(new ParkingLot(parkingLotMapList));
         smartParkingBoy.park(car);
         ParkingTicket wrongTicket = new ParkingTicket();
 
@@ -82,7 +82,7 @@ class SmartParkingBoyTest {
     @Test
     public void should_return_NoTicketException_when_fetch_given_no_ticket() {
         //given
-        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(new ParkingLot(listOfMap));
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(new ParkingLot(parkingLotMapList));
         smartParkingBoy.park(car);
         ParkingTicket noTicket = null;
 
@@ -95,13 +95,13 @@ class SmartParkingBoyTest {
     @Test
     public void should_return_WrongTicketException_when_fetch_a_car_given_used_ticket() {
         //given
-        ParkingLot parkingLot = new ParkingLot(listOfMap);
+        ParkingLot parkingLot = new ParkingLot(parkingLotMapList);
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLot);
         ParkingTicket parkingTicket = smartParkingBoy.park(car);
 
         //when
         Car fetchCarFirstTime = smartParkingBoy.fetch(parkingTicket);
-//        parkingLot.removeCarFromParkingLot(parkingTicket, listOfMap);
+//        parkingLot.removeCarFromParkingLot(parkingTicket, parkingLotMapList);
 
         //then
         assertSame(car, fetchCarFirstTime);
@@ -127,15 +127,15 @@ class SmartParkingBoyTest {
     @Test
     public void should_return_car_park_at_first_parking_lot_when_parking_boy_parks_a_car_given_two_parking_lot() {
         //given
-        List<ParkingLot> listOfMaps = new ArrayList<>();
-        listOfMaps.add(new ParkingLot(1));
-        listOfMaps.add(new ParkingLot(1));
+        List<ParkingLot> parkingLotMapLists = new ArrayList<>();
+        parkingLotMapLists.add(new ParkingLot(1));
+        parkingLotMapLists.add(new ParkingLot(1));
 
         Car secondCar = new Car();
         Car thirdCar = new Car();
 
 
-        ParkingLot parkingLot = new ParkingLot(listOfMaps);
+        ParkingLot parkingLot = new ParkingLot(parkingLotMapLists);
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLot);
 
         //when
@@ -151,22 +151,22 @@ class SmartParkingBoyTest {
     @Test
     public void should_return_parking_lot_where_car_is_park_when__smart_parking_boy_parks_a_car_given_two_parking_lot() {
         //given
-        List<ParkingLot> listOfMaps = new ArrayList<>();
-        listOfMaps.add(new ParkingLot(1));
-        listOfMaps.add(new ParkingLot(5));
+        List<ParkingLot> parkingLotMapLists = new ArrayList<>();
+        parkingLotMapLists.add(new ParkingLot(1));
+        parkingLotMapLists.add(new ParkingLot(5));
 
         Car secondCar = new Car();
         Car thirdCar = new Car();
 
 
-        ParkingLot parkingLot = new ParkingLot(listOfMaps);
+        ParkingLot parkingLot = new ParkingLot(parkingLotMapLists);
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLot);
 
         //when
         ParkingTicket parkingTicket1 = smartParkingBoy.park(car);
         ParkingTicket parkingTicket2 = smartParkingBoy.park(secondCar);
         ParkingTicket parkingTicket3 = smartParkingBoy.park(thirdCar);
-        String currentLocation = smartParkingBoy.getCurrentLocation(listOfMaps, parkingTicket2);
+        String currentLocation = smartParkingBoy.getCurrentLocation(parkingLotMapLists, parkingTicket2);
 
         //then
         assertNotNull(parkingTicket2);

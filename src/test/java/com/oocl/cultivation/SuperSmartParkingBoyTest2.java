@@ -12,21 +12,21 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SuperSmartParkingBoyTest2 {
-    private List<ParkingLot> listOfMap;
+    private List<ParkingLot> parkingLotMapList;
     private Car car;
 
     @BeforeEach
     void setUp() {
-        listOfMap = new ArrayList<>();
-        listOfMap.add(new ParkingLot(10));
-//        listOfMap.add(new ParkingLot(5));
+        parkingLotMapList = new ArrayList<>();
+        parkingLotMapList.add(new ParkingLot(10));
+//        parkingLotMapList.add(new ParkingLot(5));
         car = new Car();
     }
 
     @Test
     void should_return_a_parking_ticket_when_parking_given_a_car_to_parking_boy() {
         //given
-        SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(new ParkingLot(listOfMap));
+        SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(new ParkingLot(parkingLotMapList));
 
         //when
         ParkingTicket parkingTicket = superSmartParkingBoy.park(car);
@@ -38,7 +38,7 @@ class SuperSmartParkingBoyTest2 {
     @Test
     public void should_return_correct_car_when_fetching_given_a_ticket() {
         //given
-        SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(new ParkingLot(listOfMap));
+        SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(new ParkingLot(parkingLotMapList));
         ParkingTicket parkingTicket = superSmartParkingBoy.park(car);
 
         //when
@@ -52,7 +52,7 @@ class SuperSmartParkingBoyTest2 {
     public void should_return_two_cars_when_fetching_given_two_correct_tickets() {
         //given
         Car secondCar = new Car();
-        SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(new ParkingLot(listOfMap));
+        SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(new ParkingLot(parkingLotMapList));
         ParkingTicket parkingTicket1 = superSmartParkingBoy.park(car);
         ParkingTicket parkingTicket2 = superSmartParkingBoy.park(secondCar);
 
@@ -69,7 +69,7 @@ class SuperSmartParkingBoyTest2 {
     public void should_return_WrongTicketException_when_fetch_given_wrong_ticket() {
         //given
         Car car = new Car();
-        SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(new ParkingLot(listOfMap));
+        SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(new ParkingLot(parkingLotMapList));
         superSmartParkingBoy.park(car);
         ParkingTicket wrongTicket = new ParkingTicket();
 
@@ -83,7 +83,7 @@ class SuperSmartParkingBoyTest2 {
     @Test
     public void should_return_NoTicketException_when_fetch_given_no_ticket() {
         //given
-        SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(new ParkingLot(listOfMap));
+        SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(new ParkingLot(parkingLotMapList));
         superSmartParkingBoy.park(car);
         ParkingTicket noTicket = null;
 
@@ -96,13 +96,13 @@ class SuperSmartParkingBoyTest2 {
     @Test
     public void should_return_WrongTicketException_when_fetch_a_car_given_used_ticket() {
         //given
-        ParkingLot parkingLot = new ParkingLot(listOfMap);
+        ParkingLot parkingLot = new ParkingLot(parkingLotMapList);
         SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(parkingLot);
         ParkingTicket parkingTicket = superSmartParkingBoy.park(car);
 
         //when
         Car fetchCarFirstTime = superSmartParkingBoy.fetch(parkingTicket);
-//        parkingLot.removeCarFromParkingLot(parkingTicket, listOfMap);
+//        parkingLot.removeCarFromParkingLot(parkingTicket, parkingLotMapList);
 
         //then
         assertSame(car, fetchCarFirstTime);
@@ -128,15 +128,15 @@ class SuperSmartParkingBoyTest2 {
     @Test
     public void should_return_car_park_at_second_parking_lot_when_parking_boy_parks_a_car_given_two_parking_lot_with_larger_available_position_rate() {
         //given
-        List<ParkingLot> listOfMaps = new ArrayList<>();
-        listOfMaps.add(new ParkingLot(1));
-        listOfMaps.add(new ParkingLot(1));
+        List<ParkingLot> parkingLotMapLists = new ArrayList<>();
+        parkingLotMapLists.add(new ParkingLot(1));
+        parkingLotMapLists.add(new ParkingLot(1));
 
         Car secondCar = new Car();
         Car thirdCar = new Car();
 
 
-        ParkingLot parkingLot = new ParkingLot(listOfMaps);
+        ParkingLot parkingLot = new ParkingLot(parkingLotMapLists);
         SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(parkingLot);
 
         //when
@@ -151,27 +151,26 @@ class SuperSmartParkingBoyTest2 {
     @Test
     public void should_return_parking_lot_where_car_is_park_when_super_smart_parking_boy_parks_a_car_given_two_parking_lot_with_larger_available_position_rate() {
         //given
-        List<ParkingLot> listOfMaps = new ArrayList<>();
-        listOfMaps.add(new ParkingLot(2));
-        listOfMaps.add(new ParkingLot(5));
+        List<ParkingLot> parkingLotMapLists = new ArrayList<>();
+        parkingLotMapLists.add(new ParkingLot(2));
+        parkingLotMapLists.add(new ParkingLot(5));
 
         Car secondCar = new Car();
         Car thirdCar = new Car();
 
 
-        ParkingLot parkingLot = new ParkingLot(listOfMaps);
+        ParkingLot parkingLot = new ParkingLot(parkingLotMapLists);
         SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(parkingLot);
 
         //when
         ParkingTicket parkingTicket1 = superSmartParkingBoy.park(car); // Parking Lot 1
         ParkingTicket parkingTicket2 = superSmartParkingBoy.park(secondCar); // Parking Lot 2
         ParkingTicket parkingTicket3 = superSmartParkingBoy.park(thirdCar); // Parking Lot 2
-        String currentLocation = superSmartParkingBoy.getCurrentLocation(listOfMaps, parkingTicket2);
+        String currentLocation = superSmartParkingBoy.getCurrentLocation(parkingLotMapLists, parkingTicket2);
 
         //then
         assertNotNull(parkingTicket2);
         assertSame(secondCar, superSmartParkingBoy.fetch(parkingTicket2));
         assertEquals("ParkingLot Number: 2", currentLocation);
     }
-
 }

@@ -9,15 +9,14 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import static org.junit.jupiter.api.Assertions.*;
 
-class ParkingBoyTest {
+class ParkingLotManagerTest {
     private List<ParkingLot> parkingLotMapList;
     private Car car;
 
     @BeforeEach
-     void setup() {
+    void setUp() {
         parkingLotMapList = new ArrayList<>();
         parkingLotMapList.add(new ParkingLot(10));
         car = new Car();
@@ -124,7 +123,7 @@ class ParkingBoyTest {
         //then
         assertThrows(NoParkingLotSpaceException.class, () -> parkingBoy.park(secondCar), "Not Enough Position.");
     }
-    
+
     @Test
     public void should_return_car_park_at_first_parking_lot_when_parking_boy_parks_a_car_given_two_parking_lot() {
         //given
