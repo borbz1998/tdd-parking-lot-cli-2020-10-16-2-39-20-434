@@ -14,7 +14,7 @@ public class ParkingLot {
     private int parkingLotCapacity;
     private List<ParkingLot> parkingLotMapLists;
     private Map<ParkingTicket, Car> parkingLotMap;
-    
+
     public ParkingLot(int parkingLotCapacity) {
         this.parkingLotMap = new HashMap<>();
         this.parkingLotCapacity = parkingLotCapacity;

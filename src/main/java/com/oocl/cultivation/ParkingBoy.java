@@ -1,10 +1,11 @@
 package com.oocl.cultivation;
 
 import com.oocl.cultivation.Behavior.ParkingBoyBehavior;
+import com.oocl.cultivation.Interface.IParkingBoy;
 
 import java.util.List;
 
-public class ParkingBoy extends ParkingBoyBehavior {
+public class ParkingBoy extends ParkingBoyBehavior implements IParkingBoy {
 
     public ParkingBoy(ParkingLot parkingLot) {
         super(parkingLot);
