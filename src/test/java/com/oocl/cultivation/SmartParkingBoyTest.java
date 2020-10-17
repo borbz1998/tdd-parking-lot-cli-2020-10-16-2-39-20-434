@@ -19,7 +19,6 @@ class SmartParkingBoyTest {
     void setUp() {
         listOfMap = new ArrayList<>();
         listOfMap.add(new ParkingLot(10));
-//        listOfMap.add(new ParkingLot(5));
         car = new Car();
     }
 
