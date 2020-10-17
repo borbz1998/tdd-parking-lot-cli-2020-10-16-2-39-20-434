@@ -123,7 +123,7 @@ class SuperSuperSmartParkingBoyTest {
     }
 
     @Test
-    public void should_return_car_park_at_first_parking_lot_when_parking_boy_parks_a_car_given_two_parking_lot() {
+    public void should_return_car_park_at_second_parking_lot_when_parking_boy_parks_a_car_given_two_parking_lot_with_larger_available_position_rate() {
         //given
         List<ParkingLot> listOfMaps = new ArrayList<>();
         listOfMaps.add(new ParkingLot(1));
@@ -139,7 +139,6 @@ class SuperSuperSmartParkingBoyTest {
         //when
         superSmartParkingBoy.park(car);
         ParkingTicket parkingTicket2 = superSmartParkingBoy.park(secondCar);
-//        ParkingTicket parkingTicket3 = superSmartParkingBoy.park(thirdCar);
 
         //then
         assertNotNull(parkingTicket2);
@@ -147,7 +146,7 @@ class SuperSuperSmartParkingBoyTest {
     }
 
     @Test
-    public void should_return_parking_lot_where_car_is_park_when__smart_parking_boy_parks_a_car_given_two_parking_lot() {
+    public void should_return_parking_lot_where_car_is_park_when_super_smart_parking_boy_parks_a_car_given_two_parking_lot_with_larger_available_position_rate() {
         //given
         List<ParkingLot> listOfMaps = new ArrayList<>();
         listOfMaps.add(new ParkingLot(2));
