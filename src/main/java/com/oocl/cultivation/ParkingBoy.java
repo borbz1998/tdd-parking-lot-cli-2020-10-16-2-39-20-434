@@ -1,36 +1,14 @@
 package com.oocl.cultivation;
 
+import com.oocl.cultivation.Behavior.ParkingBoyBehavior;
+
 import java.util.List;
 
-public class ParkingBoy extends ParkingBoyBehavior{
+public class ParkingBoy extends ParkingBoyBehavior {
 
     public ParkingBoy(ParkingLot parkingLot) {
         super(parkingLot);
     }
-
-    public ParkingBoy(List<ParkingLot> parkingLotList) {
-        super(parkingLotList);
-    }
-
-//    public ParkingBoy(ParkingLot parkingLot) {
-//        this.parkingLot = parkingLot;
-//    }
-//
-//    public ParkingBoy(List<ParkingLot> parkingLotList) {
-//        this.parkingLotList = parkingLotList;
-//    }
-
-//    public ParkingTicket park(Car car) {
-//        int index = 0;
-//        for (ParkingLot parkingLotMapList: parkingLot.getParkingLotMapLists()) {
-//            if(!isParkingLotMapFull(parkingLotMapList, parkingLot.getParkingLotMapLists(), index)){
-//                return parkingLot.park(car, parkingLotMapList.getParkingLotMap());
-//            }
-//            index++;
-//        }
-//        throw new NoParkingLotSpaceException();
-//    }
-
 
     @Override
     public ParkingTicket park(Car car) {

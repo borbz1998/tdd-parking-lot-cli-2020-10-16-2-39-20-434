@@ -1,0 +1,11 @@
+package com.oocl.cultivation;
+
+import com.oocl.cultivation.Interface.IParkCar;
+
+public class SuperSmartParkingBehavior implements IParkCar {
+
+    @Override
+    public ParkingTicket park(Car car) {
+        return null;
+    }
+}

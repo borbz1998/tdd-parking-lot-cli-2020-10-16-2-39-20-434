@@ -1,4 +1,10 @@
-package com.oocl.cultivation;
+package com.oocl.cultivation.Behavior;
+
+import com.oocl.cultivation.Car;
+import com.oocl.cultivation.Interface.IParkCar;
+import com.oocl.cultivation.Exception.NoParkingLotSpaceException;
+import com.oocl.cultivation.ParkingLot;
+import com.oocl.cultivation.ParkingTicket;
 
 import java.util.List;
 
@@ -7,18 +13,9 @@ public class ParkingBoyBehavior implements IParkCar {
 
     public ParkingLot parkingLot;
 
-    private List<ParkingLot> parkingLotList;
 
     public ParkingBoyBehavior(ParkingLot parkingLot) {
         this.parkingLot = parkingLot;
-    }
-
-    public ParkingBoyBehavior(List<ParkingLot> parkingLotList) {
-        this.parkingLotList = parkingLotList;
-    }
-
-    public List<ParkingLot> getParkingLotList() {
-        return parkingLotList;
     }
 
     @Override
