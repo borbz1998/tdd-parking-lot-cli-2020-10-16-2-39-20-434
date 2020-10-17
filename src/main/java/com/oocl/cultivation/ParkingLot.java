@@ -1,6 +1,5 @@
 package com.oocl.cultivation;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,39 +39,6 @@ public class ParkingLot {
         parkingLotMap.put(parkingTicket, car);
         return parkingTicket;
     }
-
-//    public ParkingTicket park(Car car, List<ParkingLot> parkingLotMapLists) {
-//        int index = 0;
-//        for (ParkingLot parkingLotMapList : parkingLotMapLists) {
-//            if (!isParkingLotMapFull(parkingLotMapList.getParkingLotMap(), parkingLotMapLists, index)) {
-//                ParkingTicket parkingTicket = new ParkingTicket();
-//                parkingLotMapList.getParkingLotMap().put(parkingTicket, car);
-//                return parkingTicket;
-//            }
-//            index++;
-//        }
-//        throw new NoParkingLotSpaceException();
-//    }
-
-//    public ParkingTicket park(Car car, List<ParkingLot> parkingLotMapLists) {
-//        for (int i = 0 ; i <= parkingLotMapLists.size() ; i++) {
-//            if (!isParkingLotMapFull(parkingLotMap)) {
-//                ParkingTicket parkingTicket = new ParkingTicket();
-//                parkingLotMap.put(parkingTicket, car);
-//                return parkingTicket;
-//            }
-//        }
-//        throw new NoParkingLotSpaceException();
-//    }
-
-//    public Car fetch(ParkingTicket parkingTicket) {
-//        if (isNull(parkingTicket)) {
-//            throw new NoTicketException();
-//        } else if (!(parkingLotMap.containsKey(parkingTicket))) {
-//            throw new WrongTicketException();
-//        }
-//        return parkingLotMap.get(parkingTicket);
-//    }
 
     public Car fetch(ParkingTicket parkingTicket, List<ParkingLot> parkingLotMapLists) {
         if (isNull(parkingTicket)) {
