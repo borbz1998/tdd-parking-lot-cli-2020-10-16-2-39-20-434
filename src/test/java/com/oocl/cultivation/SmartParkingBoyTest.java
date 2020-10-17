@@ -98,7 +98,7 @@ class SmartSmartParkingBoyTest {
 
         //when
         Car fetchCarFirstTime = smartParkingBoy.fetch(parkingTicket);
-        parkingLot.removeCarFromParkingLot(parkingTicket, listOfMap);
+//        parkingLot.removeCarFromParkingLot(parkingTicket, listOfMap);
 
         //then
         assertSame(car, fetchCarFirstTime);

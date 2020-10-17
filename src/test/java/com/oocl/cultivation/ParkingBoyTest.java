@@ -99,7 +99,7 @@ class ParkingBoyTest {
 
         //when
         Car fetchCarFirstTime = parkingBoy.fetch(parkingTicket);
-        parkingLot.removeCarFromParkingLot(parkingTicket, listOfMap);
+//        parkingLot.removeCarFromParkingLot(parkingTicket, listOfMap);
 
         //then
         assertSame(car, fetchCarFirstTime);

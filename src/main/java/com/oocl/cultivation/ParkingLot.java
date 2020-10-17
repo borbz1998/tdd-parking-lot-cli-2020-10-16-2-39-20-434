@@ -72,15 +72,15 @@ public class ParkingLot {
         if (isNull(parkingTicket)) {
             throw new NoTicketException();
         }
-
         Map correctParkingLotMap = isPresentInParkingLotMap(parkingTicket, parkingLotMapLists);
-        return (Car) correctParkingLotMap.get(parkingTicket);
+        Car fetchCar = (Car) correctParkingLotMap.get(parkingTicket);
+        removeCarFromParkingLot(parkingTicket, correctParkingLotMap);
+        return fetchCar;
     }
 
     public Map isPresentInParkingLotMap(ParkingTicket parkingTicket, List<ParkingLot> parkingLotMapLists) {
         for (ParkingLot parkingLotMapList : parkingLotMapLists) {
             if (parkingLotMapList.getParkingLotMap().containsKey(parkingTicket)) {
-//                removeCarFromParkingLot(parkingTicket, parkingLotMapLists);
                 return parkingLotMapList.getParkingLotMap();
             }
         }
@@ -88,10 +88,8 @@ public class ParkingLot {
     }
 
     // TODO: 10/16/2020  removeCarFromParkingLot must be inside the fetch
-    public void removeCarFromParkingLot(ParkingTicket parkingTicket, List<ParkingLot> parkingLotMapLists) {
-        for (ParkingLot parkingLotMapList : parkingLotMapLists) {
-            parkingLotMapList.getParkingLotMap().remove(parkingTicket);
-        }
+    public void removeCarFromParkingLot(ParkingTicket parkingTicket, Map parkingLotMap) {
+            parkingLotMap.remove(parkingTicket);
     }
 
     public Boolean isParkingLotMapFull(Map parkingLotMap, List<ParkingLot> parkingLotMapLists, int index) {
