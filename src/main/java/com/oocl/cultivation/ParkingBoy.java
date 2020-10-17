@@ -22,10 +22,21 @@ public class ParkingBoy {
     }
 
     public ParkingTicket park(Car car) {
-        return parkingLot.park(car, parkingLot.getParkingLotMapLists());
+        int index = 0;
+        for (ParkingLot parkingLotMapList: parkingLot.getParkingLotMapLists()) {
+            if(!isParkingLotMapFull(parkingLotMapList, parkingLot.getParkingLotMapLists(), index)){
+                return parkingLot.park(car, parkingLotMapList.getParkingLotMap());
+            }
+            index++;
+        }
+        throw new NoParkingLotSpaceException();
     }
 
     public Car fetch(ParkingTicket parkingTicket) {
         return parkingLot.fetch(parkingTicket, parkingLot.getParkingLotMapLists());
+    }
+
+    public Boolean isParkingLotMapFull(ParkingLot parkingLot, List<ParkingLot> parkingLotMapLists, int index) {
+        return parkingLot.getParkingLotMap().size() >= parkingLotMapLists.get(index).getParkingLotCapacity();
     }
 }

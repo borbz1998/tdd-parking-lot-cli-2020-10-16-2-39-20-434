@@ -35,18 +35,24 @@ public class ParkingLot {
         return parkingLotMap;
     }
 
-    public ParkingTicket park(Car car, List<ParkingLot> parkingLotMapLists) {
-        int index = 0;
-        for (ParkingLot parkingLotMapList : parkingLotMapLists) {
-            if (!isParkingLotMapFull(parkingLotMapList.getParkingLotMap(), parkingLotMapLists, index)) {
-                ParkingTicket parkingTicket = new ParkingTicket();
-                parkingLotMapList.getParkingLotMap().put(parkingTicket, car);
-                return parkingTicket;
-            }
-            index++;
-        }
-        throw new NoParkingLotSpaceException();
+    public ParkingTicket park(Car car, Map parkingLotMap) {
+        ParkingTicket parkingTicket = new ParkingTicket();
+        parkingLotMap.put(parkingTicket, car);
+        return parkingTicket;
     }
+
+//    public ParkingTicket park(Car car, List<ParkingLot> parkingLotMapLists) {
+//        int index = 0;
+//        for (ParkingLot parkingLotMapList : parkingLotMapLists) {
+//            if (!isParkingLotMapFull(parkingLotMapList.getParkingLotMap(), parkingLotMapLists, index)) {
+//                ParkingTicket parkingTicket = new ParkingTicket();
+//                parkingLotMapList.getParkingLotMap().put(parkingTicket, car);
+//                return parkingTicket;
+//            }
+//            index++;
+//        }
+//        throw new NoParkingLotSpaceException();
+//    }
 
 //    public ParkingTicket park(Car car, List<ParkingLot> parkingLotMapLists) {
 //        for (int i = 0 ; i <= parkingLotMapLists.size() ; i++) {
@@ -87,9 +93,8 @@ public class ParkingLot {
         throw new WrongTicketException();
     }
 
-    // TODO: 10/16/2020  removeCarFromParkingLot must be inside the fetch
     public void removeCarFromParkingLot(ParkingTicket parkingTicket, Map parkingLotMap) {
-            parkingLotMap.remove(parkingTicket);
+        parkingLotMap.remove(parkingTicket);
     }
 
     public Boolean isParkingLotMapFull(Map parkingLotMap, List<ParkingLot> parkingLotMapLists, int index) {
