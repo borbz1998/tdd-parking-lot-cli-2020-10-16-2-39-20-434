@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ParkingBoy {
-    private ParkingLot parkingLot;
+    public ParkingLot parkingLot;
 
     private List<ParkingLot> parkingLotList;
 

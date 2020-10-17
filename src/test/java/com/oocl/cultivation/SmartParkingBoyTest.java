@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SmartSmartParkingBoyTest {
+class SmartParkingBoyTest {
     private List<ParkingLot> listOfMap;
     private Car car;
 
@@ -16,6 +16,7 @@ class SmartSmartParkingBoyTest {
     void setUp() {
         listOfMap = new ArrayList<>();
         listOfMap.add(new ParkingLot(10));
+//        listOfMap.add(new ParkingLot(5));
         car = new Car();
     }
 
@@ -138,9 +139,36 @@ class SmartSmartParkingBoyTest {
         //when
         smartParkingBoy.park(car);
         ParkingTicket parkingTicket2 = smartParkingBoy.park(secondCar);
+//        ParkingTicket parkingTicket3 = smartParkingBoy.park(thirdCar);
 
         //then
         assertNotNull(parkingTicket2);
         assertSame(secondCar, smartParkingBoy.fetch(parkingTicket2));
+    }
+
+    @Test
+    public void should_return_parking_lot_where_car_is_park_when__smart_parking_boy_parks_a_car_given_two_parking_lot() {
+        //given
+        List<ParkingLot> listOfMaps = new ArrayList<>();
+        listOfMaps.add(new ParkingLot(1));
+        listOfMaps.add(new ParkingLot(5));
+
+        Car secondCar = new Car();
+        Car thirdCar = new Car();
+
+
+        ParkingLot parkingLot = new ParkingLot(listOfMaps);
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLot);
+
+        //when
+        ParkingTicket parkingTicket1 = smartParkingBoy.park(car);
+        ParkingTicket parkingTicket2 = smartParkingBoy.park(secondCar);
+        ParkingTicket parkingTicket3 = smartParkingBoy.park(thirdCar);
+        String currentLocation = smartParkingBoy.getCurrentLocation(listOfMaps, parkingTicket3);
+
+        //then
+        assertNotNull(parkingTicket2);
+        assertSame(secondCar, smartParkingBoy.fetch(parkingTicket2));
+        assertEquals("ParkingLot Number: 1", currentLocation);
     }
 }
