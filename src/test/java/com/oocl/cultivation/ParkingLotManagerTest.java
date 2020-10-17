@@ -2,6 +2,7 @@ package com.oocl.cultivation;
 
 import com.oocl.cultivation.Exception.NoParkingLotSpaceException;
 import com.oocl.cultivation.Exception.NoTicketException;
+import com.oocl.cultivation.Exception.NotYourParkingLotException;
 import com.oocl.cultivation.Exception.WrongTicketException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -188,5 +189,37 @@ class ParkingLotManagerTest {
         assertNotNull(parkingLotManager.getParkingBoyParkingLotMap());
         // Check if the Map with Key (First Parking Boy in the list) has value
         assertNotNull(parkingLotManager.getParkingBoyParkingLotMap().get(parkingBoyList.getParkingBoyList().get(0)));
+    }
+
+
+    @Test
+    public void should_return_NotYourParkingLotException_when_parking_lot_manager_assigned_parking_boy_to_park_a_car_given_it_is_not_his_parking_lot() {
+        //given
+        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotMapList));
+        List<ParkingLot> parkingLotListByManager = new ArrayList<>();
+
+        parkingLotListByManager.add(new ParkingLot(10));
+        parkingLotListByManager.add(new ParkingLot(5));
+
+        ParkingBoyList parkingBoyList = new ParkingBoyList(
+                new ParkingBoy(new ParkingLot(parkingLotMapList)),
+                new SmartParkingBoy(new ParkingLot(parkingLotMapList)),
+                new SuperSmartParkingBoy(new ParkingLot(parkingLotMapList)));
+
+        //when
+        parkingLotManager.assignParkingLotToParkingBoy(parkingBoyList.getParkingBoyList().get(0), parkingLotListByManager);
+
+
+        //then
+        // Check the size of the map
+        assertEquals(1, parkingLotManager.getParkingBoyParkingLotMap().size());
+        // Check if Map is empty -- expected not null
+        assertNotNull(parkingLotManager.getParkingBoyParkingLotMap());
+        // Check if the Map with Key (First Parking Boy in the list) has value
+        assertNotNull(parkingLotManager.getParkingBoyParkingLotMap().get(parkingBoyList.getParkingBoyList().get(0)));
+
+        // Expected to throw exception
+        assertThrows(NotYourParkingLotException.class, () -> parkingLotManager.park(car), "Sorry Not Your Parking Lot!");
+        
     }
 }
