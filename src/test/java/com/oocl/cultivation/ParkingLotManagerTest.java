@@ -25,10 +25,10 @@ class ParkingLotManagerTest {
     @Test
     void should_return_a_parking_ticket_when_parking_given_a_car_to_parking_boy() {
         //given
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(parkingLotMapList));
+        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotMapList));
 
         //when
-        ParkingTicket parkingTicket = parkingBoy.park(car);
+        ParkingTicket parkingTicket = parkingLotManager.park(car);
 
         //then
         assertNotNull(parkingTicket);
@@ -37,11 +37,11 @@ class ParkingLotManagerTest {
     @Test
     public void should_return_correct_car_when_fetching_given_a_ticket() {
         //given
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(parkingLotMapList));
-        ParkingTicket parkingTicket = parkingBoy.park(car);
+        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotMapList));
+        ParkingTicket parkingTicket = parkingLotManager.park(car);
 
         //when
-        Car fetchCar = parkingBoy.fetch(parkingTicket);
+        Car fetchCar = parkingLotManager.fetch(parkingTicket);
 
         //then
         assertSame(car, fetchCar);
@@ -51,13 +51,13 @@ class ParkingLotManagerTest {
     public void should_return_two_cars_when_fetching_given_two_correct_tickets() {
         //given
         Car secondCar = new Car();
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(parkingLotMapList));
-        ParkingTicket parkingTicket1 = parkingBoy.park(car);
-        ParkingTicket parkingTicket2 = parkingBoy.park(secondCar);
+        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotMapList));
+        ParkingTicket parkingTicket1 = parkingLotManager.park(car);
+        ParkingTicket parkingTicket2 = parkingLotManager.park(secondCar);
 
         //when
-        Car fetchFirstCar = parkingBoy.fetch(parkingTicket1);
-        Car fetchSecondCar = parkingBoy.fetch(parkingTicket2);
+        Car fetchFirstCar = parkingLotManager.fetch(parkingTicket1);
+        Car fetchSecondCar = parkingLotManager.fetch(parkingTicket2);
 
         //then
         assertSame(car, fetchFirstCar);
@@ -68,44 +68,44 @@ class ParkingLotManagerTest {
     public void should_return_WrongTicketException_when_fetch_given_wrong_ticket() {
         //given
         Car car = new Car();
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(parkingLotMapList));
-        parkingBoy.park(car);
+        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotMapList));
+        parkingLotManager.park(car);
         ParkingTicket wrongTicket = new ParkingTicket();
 
         //when
 
 
         //then
-        assertThrows(WrongTicketException.class, () -> parkingBoy.fetch(wrongTicket), "Unrecognized Parking Ticket!");
+        assertThrows(WrongTicketException.class, () -> parkingLotManager.fetch(wrongTicket), "Unrecognized Parking Ticket!");
     }
 
     @Test
     public void should_return_NoTicketException_when_fetch_given_no_ticket() {
         //given
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(parkingLotMapList));
-        parkingBoy.park(car);
+        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotMapList));
+        parkingLotManager.park(car);
         ParkingTicket noTicket = null;
 
         //when
 
         //then
-        assertThrows(NoTicketException.class, () -> parkingBoy.fetch(noTicket), "Please provide your parking ticket!");
+        assertThrows(NoTicketException.class, () -> parkingLotManager.fetch(noTicket), "Please provide your parking ticket!");
     }
 
     @Test
     public void should_return_WrongTicketException_when_fetch_a_car_given_used_ticket() {
         //given
         ParkingLot parkingLot = new ParkingLot(parkingLotMapList);
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
-        ParkingTicket parkingTicket = parkingBoy.park(car);
+        ParkingLotManager parkingLotManager = new ParkingLotManager(parkingLot);
+        ParkingTicket parkingTicket = parkingLotManager.park(car);
 
         //when
-        Car fetchCarFirstTime = parkingBoy.fetch(parkingTicket);
+        Car fetchCarFirstTime = parkingLotManager.fetch(parkingTicket);
 //        parkingLot.removeCarFromParkingLot(parkingTicket, parkingLotMapList);
 
         //then
         assertSame(car, fetchCarFirstTime);
-        assertThrows(WrongTicketException.class, () -> parkingBoy.fetch(parkingTicket), "Unrecognized Parking Ticket!");
+        assertThrows(WrongTicketException.class, () -> parkingLotManager.fetch(parkingTicket), "Unrecognized Parking Ticket!");
     }
 
     @Test
@@ -114,14 +114,14 @@ class ParkingLotManagerTest {
         ParkingLot parkingLot = new ParkingLot(1);
         List<ParkingLot> parkingLotLists = new ArrayList<>();
         parkingLotLists.add(parkingLot);
-        ParkingBoy parkingBoy = new ParkingBoy(new ParkingLot(parkingLotLists));
+        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotLists));
         Car secondCar = new Car();
 
         //when
-        ParkingTicket parkingTicket = parkingBoy.park(car);
+        ParkingTicket parkingTicket = parkingLotManager.park(car);
 
         //then
-        assertThrows(NoParkingLotSpaceException.class, () -> parkingBoy.park(secondCar), "Not Enough Position.");
+        assertThrows(NoParkingLotSpaceException.class, () -> parkingLotManager.park(secondCar), "Not Enough Position.");
     }
 
     @Test
@@ -136,14 +136,32 @@ class ParkingLotManagerTest {
 
 
         ParkingLot parkingLot = new ParkingLot(parkingLotMapLists);
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
+        ParkingLotManager parkingLotManager = new ParkingLotManager(parkingLot);
 
         //when
-        parkingBoy.park(car);
-        ParkingTicket parkingTicket2 = parkingBoy.park(secondCar);
+        parkingLotManager.park(car);
+        ParkingTicket parkingTicket2 = parkingLotManager.park(secondCar);
 
         //then
         assertNotNull(parkingTicket2);
-        assertSame(secondCar, parkingBoy.fetch(parkingTicket2));
+        assertSame(secondCar, parkingLotManager.fetch(parkingTicket2));
+    }
+
+    @Test
+    public void should_return_park_boy_list_when_parking_lot_manager_add_new_parking_boy_given_() {
+        //given
+        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotMapList));
+        ParkingBoy newParkingBoy = new ParkingBoy(new ParkingLot(parkingLotMapList));
+        ParkingBoyList parkingBoyList = new ParkingBoyList(
+                new ParkingBoy(new ParkingLot(parkingLotMapList)),
+                new SmartParkingBoy(new ParkingLot(parkingLotMapList)),
+                new SuperSmartParkingBoy(new ParkingLot(parkingLotMapList)));
+
+        //when
+        parkingLotManager.addNewParkingBoy(parkingBoyList, newParkingBoy);
+
+        //then
+        assertEquals(4, parkingBoyList.getParkingBoyList().size());
+
     }
 }
