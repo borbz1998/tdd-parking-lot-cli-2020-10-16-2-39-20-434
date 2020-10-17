@@ -20,7 +20,6 @@ public class SmartParkingBoyBehavior implements IParkCar {
         this.parkingLot = parkingLot;
     }
 
-
     @Override
     public ParkingTicket park(Car car) {
         parkingLotMapEmptyPosition = getTheParkingLotWithMoreEmptyPosition(parkingLot.getParkingLotMapLists(), index);

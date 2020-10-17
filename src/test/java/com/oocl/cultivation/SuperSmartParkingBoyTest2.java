@@ -1,5 +1,8 @@
 package com.oocl.cultivation;
 
+import com.oocl.cultivation.Exception.NoParkingLotSpaceException;
+import com.oocl.cultivation.Exception.NoTicketException;
+import com.oocl.cultivation.Exception.WrongTicketException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SuperSuperSmartParkingBoyTest {
+class SuperSmartParkingBoyTest2 {
     private List<ParkingLot> listOfMap;
     private Car car;
 
@@ -170,4 +173,5 @@ class SuperSuperSmartParkingBoyTest {
         assertSame(secondCar, superSmartParkingBoy.fetch(parkingTicket2));
         assertEquals("ParkingLot Number: 2", currentLocation);
     }
+
 }

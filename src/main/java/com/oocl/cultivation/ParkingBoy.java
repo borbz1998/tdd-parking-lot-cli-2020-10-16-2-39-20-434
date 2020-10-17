@@ -18,5 +18,4 @@ public class ParkingBoy extends ParkingBoyBehavior {
     public Car fetch(ParkingTicket parkingTicket) {
         return parkingLot.fetch(parkingTicket, parkingLot.getParkingLotMapLists());
     }
-
 }

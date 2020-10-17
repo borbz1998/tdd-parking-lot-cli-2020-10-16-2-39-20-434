@@ -2,11 +2,7 @@ package com.oocl.cultivation;
 
 import com.oocl.cultivation.Behavior.SmartParkingBoyBehavior;
 
-import java.util.List;
-
 public class SmartParkingBoy extends SmartParkingBoyBehavior {
-    private List<Integer> parkingLotMapEmptyPosition;
-    private int index = 0;
 
     public SmartParkingBoy(ParkingLot parkingLot) {
         super(parkingLot);
@@ -20,5 +16,4 @@ public class SmartParkingBoy extends SmartParkingBoyBehavior {
     public Car fetch(ParkingTicket parkingTicket) {
         return parkingLot.fetch(parkingTicket, parkingLot.getParkingLotMapLists());
     }
-
 }
