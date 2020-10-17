@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class SmartParkingBoy extends ParkingBoy {
-    //    private ParkingLot parkingLot;
     private List<Integer> parkingLotMapEmptyPosition;
     private int index = 0;
 
@@ -29,11 +28,6 @@ public class SmartParkingBoy extends ParkingBoy {
         return super.fetch(parkingTicket);
     }
 
-    @Override
-    public Boolean isParkingLotMapFull(ParkingLot parkingLot, List<ParkingLot> parkingLotMapLists, int index) {
-        return super.isParkingLotMapFull(parkingLot, parkingLotMapLists, index);
-    }
-
     public List<Integer> getTheParkingLotWithMoreEmptyPosition(List<ParkingLot> parkingLotMapLists, int index) {
         List<Integer> availableSpaceList = new ArrayList<>();
         for (ParkingLot parkingLotMapList : parkingLotMapLists) {
@@ -51,9 +45,9 @@ public class SmartParkingBoy extends ParkingBoy {
         List<ParkingTicket> position;
         for (ParkingLot parkingLot : parkingLotLists) {
             if (parkingLot.getParkingLotMap().containsKey(parkingTicket)) {
-//                position = new ArrayList<ParkingTicket>(parkingLot.getParkingLotMap().keySet());
-//                currentLocation += "ParkingLot Number: " + index + ", Position: " + position.indexOf(parkingTicket);
-                currentLocation += "ParkingLot Number: " + index;
+                position = new ArrayList<ParkingTicket>(parkingLot.getParkingLotMap().keySet());
+//                currentLocation += "ParkingLot Number: " + (index+1) + ", Position: " + (position.indexOf(parkingTicket)+1);
+                currentLocation += "ParkingLot Number: " + (index+1);
             }
             index++;
         }
