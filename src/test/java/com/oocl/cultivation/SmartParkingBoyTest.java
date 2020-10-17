@@ -1,5 +1,8 @@
 package com.oocl.cultivation;
 
+import com.oocl.cultivation.Exception.NoParkingLotSpaceException;
+import com.oocl.cultivation.Exception.NoTicketException;
+import com.oocl.cultivation.Exception.WrongTicketException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

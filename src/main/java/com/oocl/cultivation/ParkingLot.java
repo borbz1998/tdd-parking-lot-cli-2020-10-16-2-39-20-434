@@ -1,5 +1,8 @@
 package com.oocl.cultivation;
 
+import com.oocl.cultivation.Exception.NoTicketException;
+import com.oocl.cultivation.Exception.WrongTicketException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
