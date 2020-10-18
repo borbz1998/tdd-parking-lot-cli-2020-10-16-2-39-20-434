@@ -1,7 +1,7 @@
 package com.oocl.cultivation;
 
 import com.oocl.cultivation.Behavior.ParkingBoyBehavior;
-import com.oocl.cultivation.Exception.NotYourParkingLotException;
+import com.oocl.cultivation.Exception.NoParkingLotSpaceException;
 import com.oocl.cultivation.Interface.IParkingBoy;
 
 import java.util.HashMap;
@@ -21,8 +21,9 @@ public class ParkingLotManager extends ParkingBoyBehavior implements IParkingBoy
             return super.park(car, iParkingBoy, parkingLotList);
     }
 
-    public Car fetch(ParkingTicket parkingTicket) {
-        return parkingLot.fetch(parkingTicket, parkingLot.getParkingLotMapLists());
+    @Override
+    public Car fetch(ParkingTicket parkingTicket, IParkingBoy iParkingBoy, ParkingLotList parkingLotList) {
+        return super.fetch(parkingTicket, iParkingBoy, parkingLotList);
     }
 
     public Map<IParkingBoy, List<ParkingLot>> getParkingBoyParkingLotMap() {
@@ -35,17 +36,18 @@ public class ParkingLotManager extends ParkingBoyBehavior implements IParkingBoy
     }
 
     public ParkingLotList assignParkingLotToParkingBoy(IParkingBoy iParkingBoy, List<ParkingLot> parkingLotLists, ParkingLotList parkingLotList) {
-//        parkingBoyParkingLotMap.put(iParkingBoy, parkingLotList);
         parkingLotList.getParkingBoyParkingLotMap().put(iParkingBoy,parkingLotLists);
         return parkingLotList;
     }
 
-//    public Boolean isParkingBoyAssignedToParkingLot(IParkingBoy iParkingBoy) {
-//        return parkingBoyParkingLotMap.containsKey(iParkingBoy) ? true : false;
-//    }
-
-//    public ParkingTicket askParkingBoyToWork(ParkingBoyList parkingBoyList, int index, Car car) {
-//        return parkingBoyList.getParkingBoyList().get(index).equals(parkingBoy) ? parkingBoy.park(car) : null;
+//    public ParkingTicket askParkingBoyToWork(ParkingBoyList parkingBoyList, IParkingBoy iParkingBoy, Car car, ParkingLotList parkingLotList) {
+//        parkingBoyList.getParkingBoyList().forEach(parkingBoyOne ->{
+//            if(parkingBoyOne.equals(iParkingBoy)){
+//                parkingBoyOne.park(car, iParkingBoy, parkingLotList);
+//                parkingBoyOne.getClass().
+//            }
+//        });
+//        throw new NoParkingLotSpaceException();
 //    }
 
     public int getParkingBoyWithParkingLotMap(ParkingLotList parkingLotList){

@@ -14,7 +14,8 @@ public class SmartParkingBoy extends SmartParkingBoyBehavior implements IParking
         return super.park(car, iParkingBoy, parkingLotList);
     }
 
-    public Car fetch(ParkingTicket parkingTicket) {
-        return parkingLot.fetch(parkingTicket, parkingLot.getParkingLotMapLists());
+    @Override
+    public Car fetch(ParkingTicket parkingTicket, IParkingBoy iParkingBoy, ParkingLotList parkingLotList) {
+        return super.fetch(parkingTicket, iParkingBoy, parkingLotList);
     }
 }

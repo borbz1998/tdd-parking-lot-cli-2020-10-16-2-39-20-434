@@ -3,6 +3,7 @@ package com.oocl.cultivation.Behavior;
 import com.oocl.cultivation.Car;
 import com.oocl.cultivation.Exception.NoParkingLotSpaceException;
 import com.oocl.cultivation.Exception.NotYourParkingLotException;
+import com.oocl.cultivation.Interface.IFetchCar;
 import com.oocl.cultivation.Interface.IParkCar;
 import com.oocl.cultivation.Interface.IParkingBoy;
 import com.oocl.cultivation.ParkingLot;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SuperSmartParkingBehavior implements IParkCar {
+public class SuperSmartParkingBehavior implements IParkCar, IFetchCar {
 
     public ParkingLot parkingLot;
     private List<Double> parkingLotMapEmptyPosition;
@@ -29,6 +30,14 @@ public class SuperSmartParkingBehavior implements IParkCar {
             parkingLotMapEmptyPosition = getTheParkingLotWithMoreEmptyPosition(parkingLot.getParkingLotMapLists(), index);
             int maxParkingLotSpaceIndex = parkingLotMapEmptyPosition.indexOf(Collections.max(parkingLotMapEmptyPosition));
             return parkingLot.park(car, parkingLot.getParkingLotMapLists().get(maxParkingLotSpaceIndex).getParkingLotMap());
+        }
+        throw new NotYourParkingLotException();
+    }
+
+    @Override
+    public Car fetch(ParkingTicket parkingTicket, IParkingBoy iParkingBoy, ParkingLotList parkingLotList) {
+        if (isParkingBoyAssignedToParkingLot(iParkingBoy, parkingLotList)) {
+            return parkingLot.fetch(parkingTicket, parkingLot.getParkingLotMapLists());
         }
         throw new NotYourParkingLotException();
     }
@@ -52,8 +61,6 @@ public class SuperSmartParkingBehavior implements IParkCar {
         List<ParkingTicket> position;
         for (ParkingLot parkingLot : parkingLotLists) {
             if (parkingLot.getParkingLotMap().containsKey(parkingTicket)) {
-//                position = new ArrayList<ParkingTicket>(parkingLot.getParkingLotMap().keySet());
-//                currentLocation += "ParkingLot Number: " + (index+1) + ", Position: " + (position.indexOf(parkingTicket)+1);
                 currentLocation += "ParkingLot Number: " + (index + 1);
             }
             index++;

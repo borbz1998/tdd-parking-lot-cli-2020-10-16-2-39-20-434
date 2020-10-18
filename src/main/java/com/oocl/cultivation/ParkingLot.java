@@ -64,8 +64,4 @@ public class ParkingLot {
     public void removeCarFromParkingLot(ParkingTicket parkingTicket, Map parkingLotMap) {
         parkingLotMap.remove(parkingTicket);
     }
-
-    public Boolean isParkingLotMapFull(Map parkingLotMap, List<ParkingLot> parkingLotMapLists, int index) {
-        return parkingLotMap.size() >= parkingLotMapLists.get(index).getParkingLotCapacity();
-    }
 }

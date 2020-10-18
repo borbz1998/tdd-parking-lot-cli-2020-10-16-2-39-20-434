@@ -60,7 +60,7 @@ class SuperSmartParkingBoyTest {
         ParkingTicket parkingTicket = superSmartParkingBoy.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
 
         //when
-        Car fetchCar = superSmartParkingBoy.fetch(parkingTicket);
+        Car fetchCar = superSmartParkingBoy.fetch(parkingTicket, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
 
         //then
         assertSame(car, fetchCar);
@@ -74,8 +74,8 @@ class SuperSmartParkingBoyTest {
         ParkingTicket parkingTicket2 = superSmartParkingBoy.park(secondCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
 
         //when
-        Car fetchFirstCar = superSmartParkingBoy.fetch(parkingTicket1);
-        Car fetchSecondCar = superSmartParkingBoy.fetch(parkingTicket2);
+        Car fetchFirstCar = superSmartParkingBoy.fetch(parkingTicket1, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
+        Car fetchSecondCar = superSmartParkingBoy.fetch(parkingTicket2, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
 
         //then
         assertSame(car, fetchFirstCar);
@@ -92,7 +92,7 @@ class SuperSmartParkingBoyTest {
 
 
         //then
-        assertThrows(WrongTicketException.class, () -> superSmartParkingBoy.fetch(wrongTicket), "Unrecognized Parking Ticket!");
+        assertThrows(WrongTicketException.class, () -> superSmartParkingBoy.fetch(wrongTicket, parkingBoyList.getParkingBoyList().get(0), parkingLotList), "Unrecognized Parking Ticket!");
     }
 
     @Test
@@ -104,7 +104,7 @@ class SuperSmartParkingBoyTest {
         ParkingTicket noTicket = null;
 
         //then
-        assertThrows(NoTicketException.class, () -> superSmartParkingBoy.fetch(noTicket), "Please provide your parking ticket!");
+        assertThrows(NoTicketException.class, () -> superSmartParkingBoy.fetch(noTicket, parkingBoyList.getParkingBoyList().get(0), parkingLotList), "Please provide your parking ticket!");
     }
 
     @Test
@@ -113,11 +113,11 @@ class SuperSmartParkingBoyTest {
         ParkingTicket parkingTicket = superSmartParkingBoy.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
 
         //when
-        Car fetchCarFirstTime = superSmartParkingBoy.fetch(parkingTicket);
+        Car fetchCarFirstTime = superSmartParkingBoy.fetch(parkingTicket, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
 
         //then
         assertSame(car, fetchCarFirstTime);
-        assertThrows(WrongTicketException.class, () -> superSmartParkingBoy.fetch(parkingTicket), "Unrecognized Parking Ticket!");
+        assertThrows(WrongTicketException.class, () -> superSmartParkingBoy.fetch(parkingTicket, parkingBoyList.getParkingBoyList().get(0), parkingLotList), "Unrecognized Parking Ticket!");
     }
 
     @Test
@@ -157,7 +157,7 @@ class SuperSmartParkingBoyTest {
 
         //then
         assertNotNull(parkingTicket1);
-        assertSame(secondCar, superSmartParkingBoy.fetch(parkingTicket1));
+        assertSame(secondCar, superSmartParkingBoy.fetch(parkingTicket1, parkingBoyList.getParkingBoyList().get(0), parkingLotList));
         assertEquals("ParkingLot Number: 2", currentLocation);
     }
 
@@ -184,7 +184,7 @@ class SuperSmartParkingBoyTest {
 
         //then
         assertNotNull(parkingTicket2);
-        assertSame(secondCar, superSmartParkingBoy.fetch(parkingTicket2));
+        assertSame(secondCar, superSmartParkingBoy.fetch(parkingTicket2, parkingBoyList.getParkingBoyList().get(0), parkingLotList));
         assertEquals("ParkingLot Number: 2", currentLocation);
     }
 }

@@ -2,6 +2,7 @@ package com.oocl.cultivation.Behavior;
 
 import com.oocl.cultivation.Car;
 import com.oocl.cultivation.Exception.NotYourParkingLotException;
+import com.oocl.cultivation.Interface.IFetchCar;
 import com.oocl.cultivation.Interface.IParkCar;
 import com.oocl.cultivation.Exception.NoParkingLotSpaceException;
 import com.oocl.cultivation.Interface.IParkingBoy;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SmartParkingBoyBehavior implements IParkCar {
+public class SmartParkingBoyBehavior implements IParkCar, IFetchCar {
 
     public ParkingLot parkingLot;
     private List<Integer> parkingLotMapEmptyPosition;
@@ -46,13 +47,19 @@ public class SmartParkingBoyBehavior implements IParkCar {
         return availableSpaceList;
     }
 
+    @Override
+    public Car fetch(ParkingTicket parkingTicket, IParkingBoy iParkingBoy, ParkingLotList parkingLotList) {
+        if (isParkingBoyAssignedToParkingLot(iParkingBoy, parkingLotList)) {
+            return parkingLot.fetch(parkingTicket, parkingLot.getParkingLotMapLists());
+        }
+        throw new NotYourParkingLotException();
+    }
+
     public String getCurrentLocation(List<ParkingLot> parkingLotLists, ParkingTicket parkingTicket) {
         String currentLocation = "";
         List<ParkingTicket> position;
         for (ParkingLot parkingLot : parkingLotLists) {
             if (parkingLot.getParkingLotMap().containsKey(parkingTicket)) {
-//                position = new ArrayList<ParkingTicket>(parkingLot.getParkingLotMap().keySet());
-//                currentLocation += "ParkingLot Number: " + (index+1) + ", Position: " + (position.indexOf(parkingTicket)+1);
                 currentLocation += "ParkingLot Number: " + (index + 1);
             }
             index++;
