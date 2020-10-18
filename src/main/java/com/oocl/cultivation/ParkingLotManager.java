@@ -9,22 +9,16 @@ import java.util.List;
 import java.util.Map;
 
 public class ParkingLotManager extends ParkingBoyBehavior implements IParkingBoy {
-    private IParkingBoy iParkingBoy;
 
-    private Map<IParkingBoy, List<ParkingLot>> parkingBoyParkingLotMap = new HashMap<>();
+    public Map<IParkingBoy, List<ParkingLot>> parkingBoyParkingLotMap = new HashMap<>();
 
     public ParkingLotManager(ParkingLot parkingLot) {
         super(parkingLot);
     }
 
     @Override
-    public ParkingTicket park(Car car) {
-        if(isParkingBoyParkingLot(iParkingBoy)){
-            return super.park(car);
-        }
-        else {
-            throw new NotYourParkingLotException();
-        }
+    public ParkingTicket park(Car car, IParkingBoy iParkingBoy, ParkingLotList parkingLotList) {
+            return super.park(car, iParkingBoy, parkingLotList);
     }
 
     public Car fetch(ParkingTicket parkingTicket) {
@@ -35,17 +29,27 @@ public class ParkingLotManager extends ParkingBoyBehavior implements IParkingBoy
         return parkingBoyParkingLotMap;
     }
 
-    public List<IParkingBoy> addNewParkingBoy(ParkingBoyList parkingBoyList, IParkingBoy newParkingBoy){
+    public List<IParkingBoy> addNewParkingBoy(ParkingBoyList parkingBoyList, IParkingBoy newParkingBoy) {
         parkingBoyList.getParkingBoyList().add(newParkingBoy);
         return parkingBoyList.getParkingBoyList();
     }
 
-    public Map assignParkingLotToParkingBoy(IParkingBoy iParkingBoy, List<ParkingLot> parkingLotList){
-        parkingBoyParkingLotMap.put(iParkingBoy, parkingLotList);
-        return parkingBoyParkingLotMap;
+    public ParkingLotList assignParkingLotToParkingBoy(IParkingBoy iParkingBoy, List<ParkingLot> parkingLotLists, ParkingLotList parkingLotList) {
+//        parkingBoyParkingLotMap.put(iParkingBoy, parkingLotList);
+        parkingLotList.getParkingBoyParkingLotMap().put(iParkingBoy,parkingLotLists);
+        return parkingLotList;
     }
 
-    public Boolean isParkingBoyParkingLot(IParkingBoy iParkingBoy){
-        return parkingBoyParkingLotMap.containsKey(iParkingBoy) ? true : false;
+//    public Boolean isParkingBoyAssignedToParkingLot(IParkingBoy iParkingBoy) {
+//        return parkingBoyParkingLotMap.containsKey(iParkingBoy) ? true : false;
+//    }
+
+//    public ParkingTicket askParkingBoyToWork(ParkingBoyList parkingBoyList, int index, Car car) {
+//        return parkingBoyList.getParkingBoyList().get(index).equals(parkingBoy) ? parkingBoy.park(car) : null;
+//    }
+
+    public int getParkingBoyWithParkingLotMap(ParkingLotList parkingLotList){
+        return parkingLotList.getParkingBoyParkingLotMap().size();
     }
+
 }

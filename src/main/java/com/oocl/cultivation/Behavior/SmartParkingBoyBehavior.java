@@ -1,9 +1,12 @@
 package com.oocl.cultivation.Behavior;
 
 import com.oocl.cultivation.Car;
+import com.oocl.cultivation.Exception.NotYourParkingLotException;
 import com.oocl.cultivation.Interface.IParkCar;
 import com.oocl.cultivation.Exception.NoParkingLotSpaceException;
+import com.oocl.cultivation.Interface.IParkingBoy;
 import com.oocl.cultivation.ParkingLot;
+import com.oocl.cultivation.ParkingLotList;
 import com.oocl.cultivation.ParkingTicket;
 
 import java.util.ArrayList;
@@ -21,10 +24,13 @@ public class SmartParkingBoyBehavior implements IParkCar {
     }
 
     @Override
-    public ParkingTicket park(Car car) {
-        parkingLotMapEmptyPosition = getTheParkingLotWithMoreEmptyPosition(parkingLot.getParkingLotMapLists(), index);
-        int maxParkingLotSpaceIndex = parkingLotMapEmptyPosition.indexOf(Collections.max(parkingLotMapEmptyPosition));
-        return parkingLot.park(car, parkingLot.getParkingLotMapLists().get(maxParkingLotSpaceIndex).getParkingLotMap());
+    public ParkingTicket park(Car car, IParkingBoy iParkingBoy, ParkingLotList parkingLotList) {
+        if (isParkingBoyAssignedToParkingLot(iParkingBoy, parkingLotList)) {
+            parkingLotMapEmptyPosition = getTheParkingLotWithMoreEmptyPosition(parkingLot.getParkingLotMapLists(), index);
+            int maxParkingLotSpaceIndex = parkingLotMapEmptyPosition.indexOf(Collections.max(parkingLotMapEmptyPosition));
+            return parkingLot.park(car, parkingLot.getParkingLotMapLists().get(maxParkingLotSpaceIndex).getParkingLotMap());
+        }
+        throw new NotYourParkingLotException();
     }
 
 
@@ -45,7 +51,7 @@ public class SmartParkingBoyBehavior implements IParkCar {
         List<ParkingTicket> position;
         for (ParkingLot parkingLot : parkingLotLists) {
             if (parkingLot.getParkingLotMap().containsKey(parkingTicket)) {
-                position = new ArrayList<ParkingTicket>(parkingLot.getParkingLotMap().keySet());
+//                position = new ArrayList<ParkingTicket>(parkingLot.getParkingLotMap().keySet());
 //                currentLocation += "ParkingLot Number: " + (index+1) + ", Position: " + (position.indexOf(parkingTicket)+1);
                 currentLocation += "ParkingLot Number: " + (index + 1);
             }
@@ -53,4 +59,9 @@ public class SmartParkingBoyBehavior implements IParkCar {
         }
         return currentLocation;
     }
+
+    public Boolean isParkingBoyAssignedToParkingLot(IParkingBoy iParkingBoy, ParkingLotList parkingLotList) {
+        return parkingLotList.getParkingBoyParkingLotMap().containsKey(iParkingBoy) ? true : false;
+    }
+
 }

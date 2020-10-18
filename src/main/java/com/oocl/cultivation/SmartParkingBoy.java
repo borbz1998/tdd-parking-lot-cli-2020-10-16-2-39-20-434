@@ -10,8 +10,8 @@ public class SmartParkingBoy extends SmartParkingBoyBehavior implements IParking
     }
 
     @Override
-    public ParkingTicket park(Car car) {
-        return super.park(car);
+    public ParkingTicket park(Car car, IParkingBoy iParkingBoy, ParkingLotList parkingLotList) {
+        return super.park(car, iParkingBoy, parkingLotList);
     }
 
     public Car fetch(ParkingTicket parkingTicket) {
