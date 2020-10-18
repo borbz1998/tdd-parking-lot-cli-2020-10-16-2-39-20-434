@@ -15,21 +15,38 @@ import static org.junit.jupiter.api.Assertions.*;
 class ParkingLotManagerTest {
     private List<ParkingLot> parkingLotMapList;
     private Car car;
+    private ParkingBoyList parkingBoyList = new ParkingBoyList();
+
+    private ParkingLotManager parkingLotManager;
+    private List<ParkingLot> parkingLotListByManager = new ArrayList<>();
+    private ParkingLotList parkingLotList;
 
     @BeforeEach
     void setUp() {
-        parkingLotMapList = new ArrayList<>();
-        parkingLotMapList.add(new ParkingLot(10));
         car = new Car();
+
+        parkingLotList = new ParkingLotList();
+
+        parkingBoyList = new ParkingBoyList(
+                parkingLotManager,
+                new ParkingBoy(new ParkingLot(parkingLotListByManager)),
+                new SmartParkingBoy(new ParkingLot(parkingLotListByManager)),
+                new SuperSmartParkingBoy(new ParkingLot(parkingLotListByManager)));
+
+        parkingLotListByManager.add(new ParkingLot(10));
+        parkingLotListByManager.add(new ParkingLot(5));
+
+        parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotListByManager));
+
+        parkingLotManager.assignParkingLotToParkingBoy(parkingBoyList.getParkingBoyList().get(0), parkingLotListByManager, parkingLotList);
     }
 
     @Test
     void should_return_a_parking_ticket_when_parking_given_a_car_to_parking_boy() {
         //given
-        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotMapList));
 
         //when
-        ParkingTicket parkingTicket = parkingLotManager.park(car);
+        ParkingTicket parkingTicket = parkingLotManager.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
 
         //then
         assertNotNull(parkingTicket);
@@ -38,8 +55,8 @@ class ParkingLotManagerTest {
     @Test
     public void should_return_correct_car_when_fetching_given_a_ticket() {
         //given
-        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotMapList));
-        ParkingTicket parkingTicket = parkingLotManager.park(car);
+
+        ParkingTicket parkingTicket = parkingLotManager.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
 
         //when
         Car fetchCar = parkingLotManager.fetch(parkingTicket);
@@ -52,9 +69,8 @@ class ParkingLotManagerTest {
     public void should_return_two_cars_when_fetching_given_two_correct_tickets() {
         //given
         Car secondCar = new Car();
-        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotMapList));
-        ParkingTicket parkingTicket1 = parkingLotManager.park(car);
-        ParkingTicket parkingTicket2 = parkingLotManager.park(secondCar);
+        ParkingTicket parkingTicket1 = parkingLotManager.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
+        ParkingTicket parkingTicket2 = parkingLotManager.park(secondCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
 
         //when
         Car fetchFirstCar = parkingLotManager.fetch(parkingTicket1);
@@ -69,12 +85,10 @@ class ParkingLotManagerTest {
     public void should_return_WrongTicketException_when_fetch_given_wrong_ticket() {
         //given
         Car car = new Car();
-        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotMapList));
-        parkingLotManager.park(car);
+        parkingLotManager.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
         ParkingTicket wrongTicket = new ParkingTicket();
 
         //when
-
 
         //then
         assertThrows(WrongTicketException.class, () -> parkingLotManager.fetch(wrongTicket), "Unrecognized Parking Ticket!");
@@ -83,11 +97,10 @@ class ParkingLotManagerTest {
     @Test
     public void should_return_NoTicketException_when_fetch_given_no_ticket() {
         //given
-        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotMapList));
-        parkingLotManager.park(car);
-        ParkingTicket noTicket = null;
 
         //when
+        parkingLotManager.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
+        ParkingTicket noTicket = null;
 
         //then
         assertThrows(NoTicketException.class, () -> parkingLotManager.fetch(noTicket), "Please provide your parking ticket!");
@@ -96,13 +109,10 @@ class ParkingLotManagerTest {
     @Test
     public void should_return_WrongTicketException_when_fetch_a_car_given_used_ticket() {
         //given
-        ParkingLot parkingLot = new ParkingLot(parkingLotMapList);
-        ParkingLotManager parkingLotManager = new ParkingLotManager(parkingLot);
-        ParkingTicket parkingTicket = parkingLotManager.park(car);
+        ParkingTicket parkingTicket = parkingLotManager.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
 
         //when
         Car fetchCarFirstTime = parkingLotManager.fetch(parkingTicket);
-//        parkingLot.removeCarFromParkingLot(parkingTicket, parkingLotMapList);
 
         //then
         assertSame(car, fetchCarFirstTime);
@@ -116,13 +126,15 @@ class ParkingLotManagerTest {
         List<ParkingLot> parkingLotLists = new ArrayList<>();
         parkingLotLists.add(parkingLot);
         ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotLists));
+        ParkingBoyList parkingBoyList = new ParkingBoyList(parkingLotManager);
         Car secondCar = new Car();
+        parkingLotManager.assignParkingLotToParkingBoy(parkingBoyList.getParkingBoyList().get(0), parkingLotLists, parkingLotList);
 
         //when
-        ParkingTicket parkingTicket = parkingLotManager.park(car);
+        parkingLotManager.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
 
         //then
-        assertThrows(NoParkingLotSpaceException.class, () -> parkingLotManager.park(secondCar), "Not Enough Position.");
+        assertThrows(NoParkingLotSpaceException.class, () -> parkingLotManager.park(secondCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList), "Not Enough Position.");
     }
 
     @Test
@@ -133,15 +145,10 @@ class ParkingLotManagerTest {
         parkingLotMapLists.add(new ParkingLot(1));
 
         Car secondCar = new Car();
-        Car thirdCar = new Car();
-
-
-        ParkingLot parkingLot = new ParkingLot(parkingLotMapLists);
-        ParkingLotManager parkingLotManager = new ParkingLotManager(parkingLot);
 
         //when
-        parkingLotManager.park(car);
-        ParkingTicket parkingTicket2 = parkingLotManager.park(secondCar);
+        parkingLotManager.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
+        ParkingTicket parkingTicket2 = parkingLotManager.park(secondCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
 
         //then
         assertNotNull(parkingTicket2);
@@ -168,58 +175,68 @@ class ParkingLotManagerTest {
     @Test
     public void should_return_parking_boy_with_assigned_parking_lot_when_parking_lot_manager_assigned_parking_lot_to_parking_boy_given_there_is_parking_boy_list_and_parking_lot_maps() {
         //given
-        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotMapList));
-        List<ParkingLot> parkingLotListByManager = new ArrayList<>();
-
-        parkingLotListByManager.add(new ParkingLot(10));
-        parkingLotListByManager.add(new ParkingLot(5));
-
-        ParkingBoyList parkingBoyList = new ParkingBoyList(
-                new ParkingBoy(new ParkingLot(parkingLotMapList)),
-                new SmartParkingBoy(new ParkingLot(parkingLotMapList)),
-                new SuperSmartParkingBoy(new ParkingLot(parkingLotMapList)));
+        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotListByManager));
 
         //when
-        parkingLotManager.assignParkingLotToParkingBoy(parkingBoyList.getParkingBoyList().get(0), parkingLotListByManager);
+        parkingLotManager.assignParkingLotToParkingBoy(parkingBoyList.getParkingBoyList().get(0), parkingLotListByManager, parkingLotList);
 
         //then
         // Check the size of the map
-        assertEquals(1, parkingLotManager.getParkingBoyParkingLotMap().size());
+        assertEquals(1, parkingLotManager.getParkingBoyWithParkingLotMap(parkingLotList));
         // Check if Map is empty -- expected not null
-        assertNotNull(parkingLotManager.getParkingBoyParkingLotMap());
-        // Check if the Map with Key (First Parking Boy in the list) has value
-        assertNotNull(parkingLotManager.getParkingBoyParkingLotMap().get(parkingBoyList.getParkingBoyList().get(0)));
+        assertNotNull(parkingLotList.getParkingBoyParkingLotMap());
+        // Check if the Map in the ParkingLotList with Key (First Parking Boy in the list) has value
+        assertNotNull(parkingLotList.getParkingBoyParkingLotMap().containsKey(parkingBoyList.getParkingBoyList().get(0)));
     }
-
 
     @Test
     public void should_return_NotYourParkingLotException_when_parking_lot_manager_assigned_parking_boy_to_park_a_car_given_it_is_not_his_parking_lot() {
         //given
-        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotMapList));
-        List<ParkingLot> parkingLotListByManager = new ArrayList<>();
-
-        parkingLotListByManager.add(new ParkingLot(10));
-        parkingLotListByManager.add(new ParkingLot(5));
-
-        ParkingBoyList parkingBoyList = new ParkingBoyList(
-                new ParkingBoy(new ParkingLot(parkingLotMapList)),
-                new SmartParkingBoy(new ParkingLot(parkingLotMapList)),
-                new SuperSmartParkingBoy(new ParkingLot(parkingLotMapList)));
+        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotListByManager));
 
         //when
-        parkingLotManager.assignParkingLotToParkingBoy(parkingBoyList.getParkingBoyList().get(0), parkingLotListByManager);
-
+        // Assigned ParkingLotManager to the first parking lot in the list
+        parkingLotManager.assignParkingLotToParkingBoy(parkingBoyList.getParkingBoyList().get(0), parkingLotListByManager, parkingLotList);
 
         //then
-        // Check the size of the map
-        assertEquals(1, parkingLotManager.getParkingBoyParkingLotMap().size());
+        // Check the size of the map (ParkingLotManager with assigned ParkingLotList)
+        assertEquals(1, parkingLotManager.getParkingBoyWithParkingLotMap(parkingLotList));
         // Check if Map is empty -- expected not null
         assertNotNull(parkingLotManager.getParkingBoyParkingLotMap());
-        // Check if the Map with Key (First Parking Boy in the list) has value
-        assertNotNull(parkingLotManager.getParkingBoyParkingLotMap().get(parkingBoyList.getParkingBoyList().get(0)));
+        // Check if the Map in the ParkingLotList with Key (First Parking Boy in the list) has value
+        assertNotNull(parkingLotList.getParkingBoyParkingLotMap().containsKey(parkingBoyList.getParkingBoyList().get(0)));
 
         // Expected to throw exception
-        assertThrows(NotYourParkingLotException.class, () -> parkingLotManager.park(car), "Sorry Not Your Parking Lot!");
-        
+        assertThrows(NotYourParkingLotException.class, () -> parkingLotManager.park(car, parkingBoyList.getParkingBoyList().get(3), parkingLotList), "Sorry Not Your Parking Lot!");
     }
+
+//    @Test
+//    public void should_return_parking_boy_parks_a_car_when_parking_lot_manager_ask_parking_boy_to_park_a_car_given_it_is_his_parking_lot() {
+//        //given
+//        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotMapList));
+//        List<ParkingLot> parkingLotListByManager = new ArrayList<>();
+//
+//        parkingLotListByManager.add(new ParkingLot(10));
+//        parkingLotListByManager.add(new ParkingLot(5));
+//
+//        ParkingBoyList parkingBoyList = new ParkingBoyList(
+//                new ParkingBoy(new ParkingLot(parkingLotMapList)),
+//                new SmartParkingBoy(new ParkingLot(parkingLotMapList)),
+//                new SuperSmartParkingBoy(new ParkingLot(parkingLotMapList)));
+
+//        //when
+//        parkingLotManager.assignParkingLotToParkingBoy(parkingBoyList.getParkingBoyList().get(0), parkingLotListByManager);
+//        ParkingTicket newParkingTicket = parkingLotManager.askParkingBoyToWork(parkingBoyList,0,car);
+//
+//        //then
+//        // Check the size of the map (Parking Boy with assigned ParkingLotList)
+//        assertEquals(1, parkingLotManager.getParkingBoyParkingLotMap().size());
+//        // Check if Map is empty -- expected not null
+//        assertNotNull(parkingLotManager.getParkingBoyParkingLotMap());
+//        // Check if the Map with Key (First Parking Boy in the list) has value
+//        assertNotNull(parkingLotManager.getParkingBoyParkingLotMap().get(parkingBoyList.getParkingBoyList().get(0)));
+//
+//        // Expected to throw exception
+//        assertNotNull(newParkingTicket);
+//    }
 }
