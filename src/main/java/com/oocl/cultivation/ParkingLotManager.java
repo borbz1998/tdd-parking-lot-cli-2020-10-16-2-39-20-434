@@ -18,7 +18,7 @@ public class ParkingLotManager extends ParkingBoyBehavior implements IParkingBoy
 
     @Override
     public ParkingTicket park(Car car, IParkingBoy iParkingBoy, ParkingLotList parkingLotList) {
-            return super.park(car, iParkingBoy, parkingLotList);
+        return super.park(car, iParkingBoy, parkingLotList);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class ParkingLotManager extends ParkingBoyBehavior implements IParkingBoy
     }
 
     public ParkingLotList assignParkingLotToParkingBoy(IParkingBoy iParkingBoy, List<ParkingLot> parkingLotLists, ParkingLotList parkingLotList) {
-        parkingLotList.getParkingBoyParkingLotMap().put(iParkingBoy,parkingLotLists);
+        parkingLotList.getParkingBoyParkingLotMap().put(iParkingBoy, parkingLotLists);
         return parkingLotList;
     }
 
@@ -50,7 +50,7 @@ public class ParkingLotManager extends ParkingBoyBehavior implements IParkingBoy
 //        throw new NoParkingLotSpaceException();
 //    }
 
-    public int getParkingBoyWithParkingLotMap(ParkingLotList parkingLotList){
+    public int getParkingBoyWithParkingLotMap(ParkingLotList parkingLotList) {
         return parkingLotList.getParkingBoyParkingLotMap().size();
     }
 

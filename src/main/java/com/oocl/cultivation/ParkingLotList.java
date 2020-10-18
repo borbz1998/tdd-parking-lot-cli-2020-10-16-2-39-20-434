@@ -18,7 +18,4 @@ public class ParkingLotList {
         return parkingBoyParkingLotMap;
     }
 
-    public void setParkingBoyParkingLotMap(Map<IParkingBoy, List<ParkingLot>> parkingBoyParkingLotMap) {
-        this.parkingBoyParkingLotMap = parkingBoyParkingLotMap;
-    }
 }

@@ -22,6 +22,8 @@ class SuperSmartParkingBoyTest {
 
     private SuperSmartParkingBoy superSmartParkingBoy;
 
+    private String currentCarLocation = "";
+
     @BeforeEach
     void setUp() {
         car = new Car();
@@ -125,12 +127,15 @@ class SuperSmartParkingBoyTest {
         //given
         List<ParkingLot> parkingLotMapLists = new ArrayList<>();
         parkingLotMapLists.add(new ParkingLot(1));
+
         SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(new ParkingLot(parkingLotMapLists));
+
         ParkingBoyList parkingBoyList = new ParkingBoyList(superSmartParkingBoy);
+
         Car secondCar = new Car();
-        parkingLotManager.assignParkingLotToParkingBoy(parkingBoyList.getParkingBoyList().get(0), parkingLotMapLists, parkingLotList);
 
         //when
+        parkingLotManager.assignParkingLotToParkingBoy(parkingBoyList.getParkingBoyList().get(0), parkingLotMapLists, parkingLotList);
         superSmartParkingBoy.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
 
         //then
@@ -151,14 +156,16 @@ class SuperSmartParkingBoyTest {
 
         //when
         parkingLotManager.assignParkingLotToParkingBoy(parkingBoyList.getParkingBoyList().get(0), parkingLotMapLists, parkingLotList);
-        superSmartParkingBoy.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList); // Parking Lot 1
-        ParkingTicket parkingTicket1 = superSmartParkingBoy.park(secondCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList); // Parking Lot 2
-        String currentLocation = superSmartParkingBoy.getCurrentLocation(parkingLotMapLists, parkingTicket1);
+        // Park at Parking Lot 1
+        superSmartParkingBoy.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
+        // Park at Parking Lot 2
+        ParkingTicket parkingTicket1 = superSmartParkingBoy.park(secondCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
+        currentCarLocation= superSmartParkingBoy.getCurrentLocation(parkingLotMapLists, parkingTicket1);
 
         //then
         assertNotNull(parkingTicket1);
         assertSame(secondCar, superSmartParkingBoy.fetch(parkingTicket1, parkingBoyList.getParkingBoyList().get(0), parkingLotList));
-        assertEquals("ParkingLot Number: 2", currentLocation);
+        assertEquals("ParkingLot Number: 2", currentCarLocation);
     }
 
     @Test
@@ -177,14 +184,17 @@ class SuperSmartParkingBoyTest {
 
         //when
         parkingLotManager.assignParkingLotToParkingBoy(parkingBoyList.getParkingBoyList().get(0), parkingLotMapLists, parkingLotList);
-        superSmartParkingBoy.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList); // Parking Lot 1
-        ParkingTicket parkingTicket2 = superSmartParkingBoy.park(secondCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList); // Parking Lot 2
-        superSmartParkingBoy.park(thirdCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList); // Parking Lot 2
-        String currentLocation = superSmartParkingBoy.getCurrentLocation(parkingLotMapLists, parkingTicket2);
+        // Park at Parking Lot 1 after parking --> 0.5
+        superSmartParkingBoy.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
+        // Park at Parking Lot 2 after parking --> 0.8
+        ParkingTicket parkingTicket2 = superSmartParkingBoy.park(secondCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
+        // Park at Parking Lot 2 after parking --> 0.6
+        superSmartParkingBoy.park(thirdCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
+        currentCarLocation = superSmartParkingBoy.getCurrentLocation(parkingLotMapLists, parkingTicket2);
 
         //then
         assertNotNull(parkingTicket2);
         assertSame(secondCar, superSmartParkingBoy.fetch(parkingTicket2, parkingBoyList.getParkingBoyList().get(0), parkingLotList));
-        assertEquals("ParkingLot Number: 2", currentLocation);
+        assertEquals("ParkingLot Number: 2", currentCarLocation);
     }
 }

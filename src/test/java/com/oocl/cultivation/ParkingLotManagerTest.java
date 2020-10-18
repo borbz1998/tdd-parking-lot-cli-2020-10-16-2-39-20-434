@@ -21,6 +21,8 @@ class ParkingLotManagerTest {
     private List<ParkingLot> parkingLotListByManager = new ArrayList<>();
     private ParkingLotList parkingLotList;
 
+    private String currentCarLocation = "";
+
     @BeforeEach
     void setUp() {
         car = new Car();
@@ -42,7 +44,7 @@ class ParkingLotManagerTest {
     }
 
     @Test
-    void should_return_a_parking_ticket_when_parking_given_a_car_to_parking_boy() {
+    void should_return_a_parking_ticket_when_parking_given_a_car_to_parking_lot_manager() {
         //given
 
         //when
@@ -120,7 +122,7 @@ class ParkingLotManagerTest {
     }
 
     @Test
-    public void should_return_NoParkingLotSpaceException_when_park_a_car_given_parking_lot_is_full() {
+    public void should_return_NoParkingLotSpaceException_when_parks_a_car_given_parking_lot_is_full() {
         //given
         ParkingLot parkingLot = new ParkingLot(1);
         List<ParkingLot> parkingLotLists = new ArrayList<>();
@@ -141,18 +143,25 @@ class ParkingLotManagerTest {
     public void should_return_car_park_at_first_parking_lot_when_parking_boy_parks_a_car_given_two_parking_lot() {
         //given
         List<ParkingLot> parkingLotMapLists = new ArrayList<>();
-        parkingLotMapLists.add(new ParkingLot(1));
+        parkingLotMapLists.add(new ParkingLot(2));
         parkingLotMapLists.add(new ParkingLot(1));
 
         Car secondCar = new Car();
 
+        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotMapLists));
+        ParkingBoyList parkingBoyList = new ParkingBoyList(parkingLotManager);
+        parkingLotManager.assignParkingLotToParkingBoy(parkingBoyList.getParkingBoyList().get(0), parkingLotMapLists, parkingLotList);
+
         //when
         parkingLotManager.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
         ParkingTicket parkingTicket2 = parkingLotManager.park(secondCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
+        currentCarLocation = parkingLotManager.getCurrentLocation(parkingLotMapLists, parkingTicket2);
 
         //then
         assertNotNull(parkingTicket2);
         assertSame(secondCar, parkingLotManager.fetch(parkingTicket2, parkingBoyList.getParkingBoyList().get(0), parkingLotList));
+
+        assertEquals("ParkingLot Number: 1", currentCarLocation);
     }
 
     @Test
@@ -173,41 +182,43 @@ class ParkingLotManagerTest {
     }
 
     @Test
-    public void should_return_parking_boy_with_assigned_parking_lot_when_parking_lot_manager_assigned_parking_lot_to_parking_boy_given_there_is_parking_boy_list_and_parking_lot_maps() {
+    public void should_return_parking_boy_with_assigned_parking_lot_when_parking_lot_manager_assigned_parking_lot_to_parking_boy_given_there_is_parking_boy_list_and_parking_lot_list() {
         //given
         ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotListByManager));
+        ParkingLotList parkingLotList = new ParkingLotList();
 
         //when
-        parkingLotManager.assignParkingLotToParkingBoy(parkingBoyList.getParkingBoyList().get(0), parkingLotListByManager, parkingLotList);
+        parkingLotManager.assignParkingLotToParkingBoy(parkingBoyList.getParkingBoyList().get(1), parkingLotListByManager, parkingLotList);
 
         //then
         // Check the size of the map
         assertEquals(1, parkingLotManager.getParkingBoyWithParkingLotMap(parkingLotList));
-        // Check if Map is empty -- expected not null
-        assertNotNull(parkingLotList.getParkingBoyParkingLotMap());
         // Check if the Map in the ParkingLotList with Key (First Parking Boy in the list) has value
-        assertNotNull(parkingLotList.getParkingBoyParkingLotMap().containsKey(parkingBoyList.getParkingBoyList().get(0)));
+        assertNotNull(parkingLotList.getParkingBoyParkingLotMap());
+        // Check if the map has the key value of the assigned Parking Boy Line 191
+        assertNotNull(parkingLotList.getParkingBoyParkingLotMap().get(parkingBoyList.getParkingBoyList().get(1)));
     }
 
     @Test
-    public void should_return_NotYourParkingLotException_when_parking_lot_manager_assigned_parking_boy_to_park_a_car_given_it_is_not_his_parking_lot() {
+    public void should_return_NotYourParkingLotException_when_parking_lot_manager_tries_to_park_a_car_given_it_is_not_his_parking_lot() {
         //given
-        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotListByManager));
+        List<ParkingLot> parkingLotMapLists = new ArrayList<>();
+        parkingLotMapLists.add(new ParkingLot(5));
+        ParkingLotManager parkingLotManager = new ParkingLotManager(new ParkingLot(parkingLotMapLists));
+        ParkingLotList parkingLotList = new ParkingLotList();
 
         //when
         // Assigned ParkingLotManager to the first parking lot in the list
-        parkingLotManager.assignParkingLotToParkingBoy(parkingBoyList.getParkingBoyList().get(0), parkingLotListByManager, parkingLotList);
+        parkingLotManager.assignParkingLotToParkingBoy(parkingBoyList.getParkingBoyList().get(1), parkingLotMapLists, parkingLotList);
 
         //then
         // Check the size of the map (ParkingLotManager with assigned ParkingLotList)
         assertEquals(1, parkingLotManager.getParkingBoyWithParkingLotMap(parkingLotList));
-        // Check if Map is empty -- expected not null
-        assertNotNull(parkingLotManager.getParkingBoyParkingLotMap());
         // Check if the Map in the ParkingLotList with Key (First Parking Boy in the list) has value
-        assertNotNull(parkingLotList.getParkingBoyParkingLotMap().containsKey(parkingBoyList.getParkingBoyList().get(0)));
+        assertNotNull(parkingLotManager.getParkingBoyParkingLotMap());
 
-        // Expected to throw exception
-        assertThrows(NotYourParkingLotException.class, () -> parkingLotManager.park(car, parkingBoyList.getParkingBoyList().get(3), parkingLotList), "Sorry Not Your Parking Lot!");
+        // Expected to throw exception --->
+        assertThrows(NotYourParkingLotException.class, () -> parkingLotManager.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList), "Sorry Not Your Parking Lot!");
     }
 
 //    @Test

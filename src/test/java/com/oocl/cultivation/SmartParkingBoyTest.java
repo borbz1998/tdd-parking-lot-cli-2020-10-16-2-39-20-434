@@ -22,6 +22,8 @@ class SmartParkingBoyTest {
 
     private SmartParkingBoy smartParkingBoy;
 
+    private String currentCarLocation = "";
+
 
     @BeforeEach
     void setUp() {
@@ -141,8 +143,8 @@ class SmartParkingBoyTest {
     public void should_return_car_park_at_first_parking_lot_when_parking_boy_parks_a_car_given_two_parking_lot_with_same_available_space() {
         //given
         List<ParkingLot> parkingLotMapLists = new ArrayList<>();
-        parkingLotMapLists.add(new ParkingLot(1));
-        parkingLotMapLists.add(new ParkingLot(1));
+        parkingLotMapLists.add(new ParkingLot(5));
+        parkingLotMapLists.add(new ParkingLot(5));
 
         Car secondCar = new Car();
 
@@ -151,12 +153,17 @@ class SmartParkingBoyTest {
 
         //when
         parkingLotManager.assignParkingLotToParkingBoy(parkingBoyList.getParkingBoyList().get(0), parkingLotMapLists, parkingLotList);
+        // Park at Parking Lot 1
         smartParkingBoy.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
+        // Park at Parking Lot 2
         ParkingTicket parkingTicket1 = smartParkingBoy.park(secondCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
+        currentCarLocation = smartParkingBoy.getCurrentLocation(parkingLotMapLists, parkingTicket1);
 
         //then
         assertNotNull(parkingTicket1);
         assertSame(secondCar, smartParkingBoy.fetch(parkingTicket1, parkingBoyList.getParkingBoyList().get(0), parkingLotList));
+
+        assertEquals("ParkingLot Number: 2", currentCarLocation);
     }
 
     @Test
@@ -179,12 +186,12 @@ class SmartParkingBoyTest {
         // Park at Parking Lot 1
         ParkingTicket parkingTicket2 = smartParkingBoy.park(secondCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
         // Park at Parking Lot 2
-       smartParkingBoy.park(thirdCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
-        String currentLocation = smartParkingBoy.getCurrentLocation(parkingLotMapLists, parkingTicket2);
+        smartParkingBoy.park(thirdCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
+        currentCarLocation = smartParkingBoy.getCurrentLocation(parkingLotMapLists, parkingTicket2);
 
         //then
         assertNotNull(parkingTicket2);
         assertSame(secondCar, smartParkingBoy.fetch(parkingTicket2, parkingBoyList.getParkingBoyList().get(0), parkingLotList));
-        assertEquals("ParkingLot Number: 1", currentLocation);
+        assertEquals("ParkingLot Number: 1", currentCarLocation);
     }
 }
