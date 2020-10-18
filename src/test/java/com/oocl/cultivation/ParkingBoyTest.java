@@ -140,7 +140,7 @@ class ParkingBoyTest {
     public void should_return_car_park_at_first_parking_lot_when_parking_boy_parks_a_car_given_two_parking_lot() {
         //given
         List<ParkingLot> parkingLotMapLists = new ArrayList<>();
-        parkingLotMapLists.add(new ParkingLot(1));
+        parkingLotMapLists.add(new ParkingLot(2));
         parkingLotMapLists.add(new ParkingLot(1));
 
         Car secondCar = new Car();
@@ -151,9 +151,12 @@ class ParkingBoyTest {
         //when
         parkingBoy.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
         ParkingTicket parkingTicket2 = parkingBoy.park(secondCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
+        String currentCarLocation = parkingLotManager.getCurrentLocation(parkingLotMapLists, parkingTicket2);
 
         //then
         assertNotNull(parkingTicket2);
         assertSame(secondCar, parkingBoy.fetch(parkingTicket2, parkingBoyList.getParkingBoyList().get(0), parkingLotList));
+
+        assertEquals("ParkingLot Number: 1", currentCarLocation);
     }
 }
