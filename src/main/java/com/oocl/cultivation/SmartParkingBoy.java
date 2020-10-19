@@ -1,21 +1,24 @@
 package com.oocl.cultivation;
 
-import com.oocl.cultivation.Behavior.SmartParkingBoyBehavior;
-import com.oocl.cultivation.Interface.IParkingBoy;
+import com.oocl.cultivation.behavior.SmartParkingBoyBehavior;
+import com.oocl.cultivation.interfaces.IParkingBoy;
+
+import java.util.List;
 
 public class SmartParkingBoy extends SmartParkingBoyBehavior implements IParkingBoy {
 
-    public SmartParkingBoy(ParkingLot parkingLot) {
-        super(parkingLot);
+    public SmartParkingBoy(List<ParkingLot> parkingLotList) {
+        super(parkingLotList);
     }
 
     @Override
-    public ParkingTicket park(Car car, IParkingBoy iParkingBoy, ParkingLotList parkingLotList) {
-        return super.park(car, iParkingBoy, parkingLotList);
+    public ParkingTicket park(Car car) {
+        return super.park(car);
     }
 
+
     @Override
-    public Car fetch(ParkingTicket parkingTicket, IParkingBoy iParkingBoy, ParkingLotList parkingLotList) {
-        return super.fetch(parkingTicket, iParkingBoy, parkingLotList);
+    public Car fetch(ParkingTicket parkingTicket) {
+        return super.fetch(parkingTicket);
     }
 }

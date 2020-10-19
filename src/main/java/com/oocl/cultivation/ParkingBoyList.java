@@ -1,6 +1,6 @@
 package com.oocl.cultivation;
 
-import com.oocl.cultivation.Interface.IParkingBoy;
+import com.oocl.cultivation.interfaces.IParkingBoy;
 
 import java.util.ArrayList;
 import java.util.Arrays;

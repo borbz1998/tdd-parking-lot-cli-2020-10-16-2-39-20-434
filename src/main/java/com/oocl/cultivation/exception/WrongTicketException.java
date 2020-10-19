@@ -1,4 +1,4 @@
-package com.oocl.cultivation.Exception;
+package com.oocl.cultivation.exception;
 
 public class WrongTicketException extends RuntimeException {
     public WrongTicketException() {
