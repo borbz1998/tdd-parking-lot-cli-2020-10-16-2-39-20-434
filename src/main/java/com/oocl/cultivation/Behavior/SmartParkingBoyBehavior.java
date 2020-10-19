@@ -56,19 +56,18 @@ public class SmartParkingBoyBehavior implements IParkCar, IFetchCar {
     }
 
     public String getCurrentLocation(List<ParkingLot> parkingLotLists, ParkingTicket parkingTicket) {
-        String currentLocation = "";
-        List<ParkingTicket> position;
+        StringBuilder currentLocation = new StringBuilder();
         for (ParkingLot parkingLot : parkingLotLists) {
             if (parkingLot.getParkingLotMap().containsKey(parkingTicket)) {
-                currentLocation += "ParkingLot Number: " + (index + 1);
+                currentLocation.append("ParkingLot Number: ").append(index + 1);
             }
             index++;
         }
-        return currentLocation;
+        return currentLocation.toString();
     }
 
     public Boolean isParkingBoyAssignedToParkingLot(IParkingBoy iParkingBoy, ParkingLotList parkingLotList) {
-        return parkingLotList.getParkingBoyParkingLotMap().containsKey(iParkingBoy) ? true : false;
+        return parkingLotList.getParkingBoyParkingLotMap().containsKey(iParkingBoy);
     }
 
 }

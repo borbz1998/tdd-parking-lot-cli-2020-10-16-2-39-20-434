@@ -22,7 +22,7 @@ class SmartParkingBoyTest {
 
     private SmartParkingBoy smartParkingBoy;
 
-    private String currentCarLocation = "";
+    private StringBuilder currentCarLocation = new StringBuilder();
 
 
     @BeforeEach
@@ -157,13 +157,13 @@ class SmartParkingBoyTest {
         smartParkingBoy.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
         // Park at Parking Lot 2
         ParkingTicket parkingTicket1 = smartParkingBoy.park(secondCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
-        currentCarLocation = smartParkingBoy.getCurrentLocation(parkingLotMapLists, parkingTicket1);
+        currentCarLocation.append(smartParkingBoy.getCurrentLocation(parkingLotMapLists, parkingTicket1));
 
         //then
         assertNotNull(parkingTicket1);
         assertSame(secondCar, smartParkingBoy.fetch(parkingTicket1, parkingBoyList.getParkingBoyList().get(0), parkingLotList));
 
-        assertEquals("ParkingLot Number: 2", currentCarLocation);
+        assertEquals("ParkingLot Number: 2", currentCarLocation.toString());
     }
 
     @Test
@@ -187,11 +187,11 @@ class SmartParkingBoyTest {
         ParkingTicket parkingTicket2 = smartParkingBoy.park(secondCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
         // Park at Parking Lot 2
         smartParkingBoy.park(thirdCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
-        currentCarLocation = smartParkingBoy.getCurrentLocation(parkingLotMapLists, parkingTicket2);
+        currentCarLocation.append(smartParkingBoy.getCurrentLocation(parkingLotMapLists, parkingTicket2));
 
         //then
         assertNotNull(parkingTicket2);
         assertSame(secondCar, smartParkingBoy.fetch(parkingTicket2, parkingBoyList.getParkingBoyList().get(0), parkingLotList));
-        assertEquals("ParkingLot Number: 1", currentCarLocation);
+        assertEquals("ParkingLot Number: 1", currentCarLocation.toString());
     }
 }

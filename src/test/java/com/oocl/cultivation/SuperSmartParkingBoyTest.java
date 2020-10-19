@@ -22,7 +22,7 @@ class SuperSmartParkingBoyTest {
 
     private SuperSmartParkingBoy superSmartParkingBoy;
 
-    private String currentCarLocation = "";
+    private StringBuilder currentCarLocation = new StringBuilder();
 
     @BeforeEach
     void setUp() {
@@ -160,12 +160,12 @@ class SuperSmartParkingBoyTest {
         superSmartParkingBoy.park(car, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
         // Park at Parking Lot 2
         ParkingTicket parkingTicket1 = superSmartParkingBoy.park(secondCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
-        currentCarLocation= superSmartParkingBoy.getCurrentLocation(parkingLotMapLists, parkingTicket1);
+        currentCarLocation.append(superSmartParkingBoy.getCurrentLocation(parkingLotMapLists, parkingTicket1));
 
         //then
         assertNotNull(parkingTicket1);
         assertSame(secondCar, superSmartParkingBoy.fetch(parkingTicket1, parkingBoyList.getParkingBoyList().get(0), parkingLotList));
-        assertEquals("ParkingLot Number: 2", currentCarLocation);
+        assertEquals("ParkingLot Number: 2", currentCarLocation.toString());
     }
 
     @Test
@@ -190,11 +190,11 @@ class SuperSmartParkingBoyTest {
         ParkingTicket parkingTicket2 = superSmartParkingBoy.park(secondCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
         // Park at Parking Lot 2 after parking --> 0.6
         superSmartParkingBoy.park(thirdCar, parkingBoyList.getParkingBoyList().get(0), parkingLotList);
-        currentCarLocation = superSmartParkingBoy.getCurrentLocation(parkingLotMapLists, parkingTicket2);
+        currentCarLocation.append(superSmartParkingBoy.getCurrentLocation(parkingLotMapLists, parkingTicket2));
 
         //then
         assertNotNull(parkingTicket2);
         assertSame(secondCar, superSmartParkingBoy.fetch(parkingTicket2, parkingBoyList.getParkingBoyList().get(0), parkingLotList));
-        assertEquals("ParkingLot Number: 2", currentCarLocation);
+        assertEquals("ParkingLot Number: 2", currentCarLocation.toString());
     }
 }

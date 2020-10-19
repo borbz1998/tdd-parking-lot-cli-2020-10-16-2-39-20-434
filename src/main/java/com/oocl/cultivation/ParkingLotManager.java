@@ -40,15 +40,13 @@ public class ParkingLotManager extends ParkingBoyBehavior implements IParkingBoy
         return parkingLotList;
     }
 
-//    public ParkingTicket askParkingBoyToWork(ParkingBoyList parkingBoyList, IParkingBoy iParkingBoy, Car car, ParkingLotList parkingLotList) {
-//        parkingBoyList.getParkingBoyList().forEach(parkingBoyOne ->{
-//            if(parkingBoyOne.equals(iParkingBoy)){
-//                parkingBoyOne.park(car, iParkingBoy, parkingLotList);
-//                parkingBoyOne.getClass().
-//            }
-//        });
-//        throw new NoParkingLotSpaceException();
-//    }
+    public ParkingTicket askParkingBoyToPark(Car car, IParkingBoy iParkingBoy, ParkingLotList parkingLotList) {
+        return super.park(car, iParkingBoy, parkingLotList);
+    }
+
+    public Car askParkingBoyToFetch(ParkingTicket parkingTicket, IParkingBoy iParkingBoy, ParkingLotList parkingLotList) {
+        return super.fetch(parkingTicket, iParkingBoy, parkingLotList);
+    }
 
     public int getParkingBoyWithParkingLotMap(ParkingLotList parkingLotList) {
         return parkingLotList.getParkingBoyParkingLotMap().size();

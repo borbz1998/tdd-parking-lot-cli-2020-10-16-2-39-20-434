@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface IParkCar {
 
-    public ParkingTicket park(Car car, IParkingBoy iParkingBoy, ParkingLotList parkingLotList);
+    ParkingTicket park(Car car, IParkingBoy iParkingBoy, ParkingLotList parkingLotList);
 
 }

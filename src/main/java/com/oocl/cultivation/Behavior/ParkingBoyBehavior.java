@@ -1,18 +1,16 @@
 package com.oocl.cultivation.Behavior;
 
 import com.oocl.cultivation.Car;
+import com.oocl.cultivation.Exception.NoParkingLotSpaceException;
 import com.oocl.cultivation.Exception.NotYourParkingLotException;
 import com.oocl.cultivation.Interface.IFetchCar;
 import com.oocl.cultivation.Interface.IParkCar;
-import com.oocl.cultivation.Exception.NoParkingLotSpaceException;
 import com.oocl.cultivation.Interface.IParkingBoy;
 import com.oocl.cultivation.ParkingLot;
 import com.oocl.cultivation.ParkingLotList;
 import com.oocl.cultivation.ParkingTicket;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ParkingBoyBehavior implements IParkCar, IFetchCar {
     private int index = 0;
@@ -51,18 +49,17 @@ public class ParkingBoyBehavior implements IParkCar, IFetchCar {
     }
 
     public Boolean isParkingBoyAssignedToParkingLot(IParkingBoy iParkingBoy, ParkingLotList parkingLotList) {
-        return parkingLotList.getParkingBoyParkingLotMap().containsKey(iParkingBoy) ? true : false;
+        return parkingLotList.getParkingBoyParkingLotMap().containsKey(iParkingBoy);
     }
 
     public String getCurrentLocation(List<ParkingLot> parkingLotLists, ParkingTicket parkingTicket) {
-        String currentLocation = "";
-        List<ParkingTicket> position;
+        StringBuilder currentLocation = new StringBuilder();
         for (ParkingLot parkingLot : parkingLotLists) {
             if (parkingLot.getParkingLotMap().containsKey(parkingTicket)) {
-                currentLocation += "ParkingLot Number: " + (index + 1);
+                currentLocation.append("ParkingLot Number: ").append(index + 1);
             }
             index++;
         }
-        return currentLocation;
+        return currentLocation.toString();
     }
 }

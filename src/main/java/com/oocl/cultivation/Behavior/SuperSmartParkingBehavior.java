@@ -45,8 +45,8 @@ public class SuperSmartParkingBehavior implements IParkCar, IFetchCar {
     public List<Double> getTheParkingLotWithMoreEmptyPosition(List<ParkingLot> parkingLotMapLists, int index) {
         List<Double> availableSpaceList = new ArrayList<>();
         for (ParkingLot parkingLotMapList : parkingLotMapLists) {
-            Double availableSpaceInParking = Double.valueOf(parkingLotMapLists.get(index).getParkingLotCapacity() - parkingLotMapList.getParkingLotMap().size());
-            Double parkingLotCapacity = Double.valueOf(parkingLotMapLists.get(index).getParkingLotCapacity());
+            Double availableSpaceInParking = (double) (parkingLotMapLists.get(index).getParkingLotCapacity() - parkingLotMapList.getParkingLotMap().size());
+            Double parkingLotCapacity = (double) parkingLotMapLists.get(index).getParkingLotCapacity();
             availableSpaceList.add(availableSpaceInParking / parkingLotCapacity);
             index++;
         }
@@ -57,18 +57,17 @@ public class SuperSmartParkingBehavior implements IParkCar, IFetchCar {
     }
 
     public String getCurrentLocation(List<ParkingLot> parkingLotLists, ParkingTicket parkingTicket) {
-        String currentLocation = "";
-        List<ParkingTicket> position;
+        StringBuilder currentLocation = new StringBuilder();
         for (ParkingLot parkingLot : parkingLotLists) {
             if (parkingLot.getParkingLotMap().containsKey(parkingTicket)) {
-                currentLocation += "ParkingLot Number: " + (index + 1);
+                currentLocation.append("ParkingLot Number: ").append(index + 1);
             }
             index++;
         }
-        return currentLocation;
+        return currentLocation.toString();
     }
 
     public Boolean isParkingBoyAssignedToParkingLot(IParkingBoy iParkingBoy, ParkingLotList parkingLotList) {
-        return parkingLotList.getParkingBoyParkingLotMap().containsKey(iParkingBoy) ? true : false;
+        return parkingLotList.getParkingBoyParkingLotMap().containsKey(iParkingBoy);
     }
 }

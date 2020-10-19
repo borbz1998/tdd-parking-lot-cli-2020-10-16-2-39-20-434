@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface IFetchCar {
 
-    public Car fetch(ParkingTicket parkingTicket, IParkingBoy iParkingBoy, ParkingLotList parkingLotList);
+    Car fetch(ParkingTicket parkingTicket, IParkingBoy iParkingBoy, ParkingLotList parkingLotList);
 }
