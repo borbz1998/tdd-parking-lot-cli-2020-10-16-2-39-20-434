@@ -137,18 +137,17 @@ class ParkingBoyTest {
         ParkingLot newParkingLot2 = new ParkingLot(2);
         parkingLotMapLists = Arrays.asList(newParkingLot, newParkingLot2);
         ParkingBoy parkingBoy = new ParkingBoy(parkingLotMapLists);
-        ParkingTicket parkingTicket = parkingBoy.park(car);
         Car secondCar = new Car();
 
         //when
         ParkingTicket parkingTicket1 = parkingBoy.park(car);
-        ParkingTicket parkingTicket2 = parkingBoy.park(secondCar);
+        parkingBoy.park(secondCar);
         StringBuffer currentCarLocation = new StringBuffer();
-        currentCarLocation.append(parkingBoy.getCurrentLocation(parkingLotMapLists, parkingTicket2));
+        currentCarLocation.append(parkingBoy.getCurrentLocation(parkingLotMapLists, parkingTicket1));
 
         //then
-        assertNotNull(parkingTicket2);
+        assertNotNull(parkingTicket1);
 
-        assertEquals("ParkingLot Number: 2", currentCarLocation.toString());
+        assertEquals("ParkingLot Number: 1", currentCarLocation.toString());
     }
 }

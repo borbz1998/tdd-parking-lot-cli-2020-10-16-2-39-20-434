@@ -134,7 +134,6 @@ class SmartParkingBoyTest {
     public void should_return_car_park_at_first_parking_lot_when_parking_boy_parks_a_car_given_two_parking_lot_with_same_available_space() {
         //given
         Car secondCar = new Car();
-
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLotList);
 
         //when
@@ -159,10 +158,8 @@ class SmartParkingBoyTest {
         parkingLotList.add(new ParkingLot(2));
 
         Car secondCar = new Car();
-        Car thirdCar = new Car();
 
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLotList);
-        ParkingBoyList parkingBoyList = new ParkingBoyList(smartParkingBoy);
 
         //when
         // Park at Parking Lot 2

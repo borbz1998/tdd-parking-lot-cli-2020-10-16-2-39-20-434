@@ -4,20 +4,19 @@ import com.oocl.cultivation.Car;
 import com.oocl.cultivation.ParkingLot;
 import com.oocl.cultivation.ParkingTicket;
 import com.oocl.cultivation.exception.NoParkingLotSpaceException;
-import com.oocl.cultivation.interfaces.IFetchCar;
 import com.oocl.cultivation.interfaces.IParkCar;
 
 import java.util.Comparator;
 import java.util.List;
 
-public class SuperSmartParkingBehavior implements IParkCar, IFetchCar {
-
-    private int index = 0;
+public class SuperSmartParkingBehavior implements IParkCar {
+    private FetchingBehavior fetchingBehavior;
 
     private List<ParkingLot> parkingLotList;
 
     public SuperSmartParkingBehavior(List<ParkingLot> parkingLotList) {
         this.parkingLotList = parkingLotList;
+        fetchingBehavior = new FetchingBehavior(this.parkingLotList);
     }
 
     @Override
@@ -26,13 +25,8 @@ public class SuperSmartParkingBehavior implements IParkCar, IFetchCar {
         return parkingLot.park(car, parkingLot.getParkingLotMap());
     }
 
-    @Override
-    public Car fetch(ParkingTicket parkingTicket) {
-        ParkingLot parkingLot = getAvailableParkingLot();
-        return parkingLot.fetch(parkingTicket, parkingLotList);
-    }
-
     public String getCurrentLocation(List<ParkingLot> parkingLotLists, ParkingTicket parkingTicket) {
+        int index = 0;
         StringBuilder currentLocation = new StringBuilder();
         for (ParkingLot parkingLot : parkingLotLists) {
             if (parkingLot.getParkingLotMap().containsKey(parkingTicket)) {
@@ -48,5 +42,9 @@ public class SuperSmartParkingBehavior implements IParkCar, IFetchCar {
                 .filter(parkingLot -> parkingLot.getTheParkingLotWithMoreAvailablePositionRate() > 0)
                 .max(Comparator.comparing(ParkingLot::getTheParkingLotWithMoreAvailablePositionRate))
                 .orElseThrow(NoParkingLotSpaceException::new);
+    }
+
+    public Car fetch(ParkingTicket parkingTicket) {
+        return this.fetchingBehavior.fetch(parkingTicket);
     }
 }

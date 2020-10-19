@@ -133,12 +133,10 @@ class SuperSmartParkingBoyTest {
 
 
     @Test
-    public void should_return_car_park_at_second_parking_lot_when_parking_boy_parks_a_car_given_two_parking_lot_same_available_position() {
+    public void should_return_car_park_at_second_parking_lot_when_parking_boy_parks_a_car_given_two_parking_lot_same_available_position_rate() {
         //given
         SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(parkingLotList);
         Car secondCar = new Car();
-
-//        ParkingBoyList parkingBoyList = new ParkingBoyList(superSmartParkingBoy);
 
         //when
         // Park at Parking Lot 1
@@ -163,21 +161,19 @@ class SuperSmartParkingBoyTest {
         Car secondCar = new Car();
         Car thirdCar = new Car();
 
-
         SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(parkingLotList);
-        ParkingBoyList parkingBoyList = new ParkingBoyList(superSmartParkingBoy);
 
         // Park at Parking Lot 1 after parking --> 0.5
         superSmartParkingBoy.park(car);
         // Park at Parking Lot 2 after parking --> 0.8
         ParkingTicket parkingTicket2 = superSmartParkingBoy.park(secondCar);
         // Park at Parking Lot 2 after parking --> 0.6
-        superSmartParkingBoy.park(thirdCar);
-        currentCarLocation.append(superSmartParkingBoy.getCurrentLocation(parkingLotList, parkingTicket2));
+        ParkingTicket parkingTicket3 = superSmartParkingBoy.park(thirdCar);
+        currentCarLocation.append(superSmartParkingBoy.getCurrentLocation(parkingLotList, parkingTicket3));
 
         //then
-        assertNotNull(parkingTicket2);
-        assertSame(secondCar, superSmartParkingBoy.fetch(parkingTicket2));
+        assertNotNull(parkingTicket3);
+        assertSame(thirdCar, superSmartParkingBoy.fetch(parkingTicket3));
         assertEquals("ParkingLot Number: 2", currentCarLocation.toString());
     }
 }
