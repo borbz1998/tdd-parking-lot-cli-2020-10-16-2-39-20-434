@@ -31,4 +31,12 @@ public class ParkingLot {
     public Double getTheParkingLotWithMoreAvailablePositionRate() {
         return (double) getTheParkingLotWithMoreAvailablePosition() / (double) parkingLotCapacity;
     }
+
+    public boolean isFull() {
+        return this.parkingLotCapacity == parkingLotMap.size();
+    }
+
+    public boolean isCarPresent(ParkingTicket ticket) {
+        return parkingLotMap.containsKey(ticket);
+    }
 }

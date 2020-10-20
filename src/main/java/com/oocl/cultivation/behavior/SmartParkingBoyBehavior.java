@@ -10,12 +10,10 @@ import java.util.Comparator;
 import java.util.List;
 
 public class SmartParkingBoyBehavior implements IParkCar {
-    private FetchingBehavior fetchingBehavior;
     private List<ParkingLot> parkingLotList;
 
     public SmartParkingBoyBehavior(List<ParkingLot> parkingLotList) {
         this.parkingLotList = parkingLotList;
-        fetchingBehavior = new FetchingBehavior(this.parkingLotList);
     }
 
     @Override
@@ -24,26 +22,10 @@ public class SmartParkingBoyBehavior implements IParkCar {
         return parkingLot.park(car, parkingLot.getParkingLotMap());
     }
 
-    public String getCurrentLocation(List<ParkingLot> parkingLotLists, ParkingTicket parkingTicket) {
-        int index = 0;
-        StringBuffer currentLocation = new StringBuffer();
-        for (ParkingLot parkingLot : parkingLotLists) {
-            if (parkingLot.getParkingLotMap().containsKey(parkingTicket)) {
-                currentLocation.append("ParkingLot Number: ").append(index + 1);
-            }
-            index++;
-        }
-        return currentLocation.toString();
-    }
-
     public ParkingLot getAvailableParkingLot() {
         return parkingLotList.stream()
                 .filter(parkingLot -> parkingLot.getTheParkingLotWithMoreAvailablePosition() > 0)
                 .max(Comparator.comparing(ParkingLot::getTheParkingLotWithMoreAvailablePosition))
                 .orElseThrow(NoParkingLotSpaceException::new);
-    }
-
-    public Car fetch(ParkingTicket parkingTicket) {
-        return this.fetchingBehavior.fetch(parkingTicket);
     }
 }

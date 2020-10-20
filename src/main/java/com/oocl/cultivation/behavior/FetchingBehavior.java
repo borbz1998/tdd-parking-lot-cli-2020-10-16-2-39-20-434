@@ -25,22 +25,21 @@ public class FetchingBehavior implements IFetchCar {
         if (isNull(parkingTicket)) {
             throw new NoTicketException();
         }
-        Map correctParkingLotMap = checkIfPresentInParkingLotMap(parkingTicket, parkingLotList);
+        Map correctParkingLotMap = getTheParkingLotWhereTheCarIsPark(parkingTicket);
         Car fetchCar = (Car) correctParkingLotMap.get(parkingTicket);
         removeCarFromParkingLot(parkingTicket, correctParkingLotMap);
         return fetchCar;
     }
 
-    public Map checkIfPresentInParkingLotMap(ParkingTicket parkingTicket, List<ParkingLot> parkingLotMapLists) {
-        for (ParkingLot parkingLotMapList : parkingLotMapLists) {
-            if (parkingLotMapList.getParkingLotMap().containsKey(parkingTicket)) {
-                return parkingLotMapList.getParkingLotMap();
-            }
-        }
-        throw new WrongTicketException();
-    }
-
     public void removeCarFromParkingLot(ParkingTicket parkingTicket, Map parkingLotMap) {
         parkingLotMap.remove(parkingTicket);
+    }
+
+    public Map getTheParkingLotWhereTheCarIsPark(ParkingTicket parkingTicket) {
+        return parkingLotList.stream()
+                .filter(parkingLot -> parkingLot.isCarPresent(parkingTicket))
+                .findFirst()
+                .orElseThrow(WrongTicketException::new)
+                .getParkingLotMap();
     }
 }

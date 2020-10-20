@@ -16,10 +16,11 @@ class ParkingLotManagerTest {
 
     private Car car;
     private List<ParkingLot> parkingLotList;
+    private StringBuffer currentCarLocation;
 
     @BeforeEach
     void setUp() {
-
+        currentCarLocation = new StringBuffer();
         car = new Car();
 
         ParkingLot newParkingLot = new ParkingLot(5);
@@ -130,6 +131,25 @@ class ParkingLotManagerTest {
         assertEquals("Not Enough Position.", noParkingLotSpaceException.getMessage());
     }
 
+    @Test
+    public void should_return_parking_boy_list_when_parking_lot_manager_adds_parking_employee() {
+        //given
+        List<ParkingLot> parkingLotLists = new ArrayList<>();
+        parkingLotLists.add(new ParkingLot(2));
+        parkingLotLists.add(new ParkingLot(1));
+
+        List<ParkingEmployee> parkingEmployeeList = new ArrayList<>();
+        parkingEmployeeList.add(new ParkingBoy(parkingLotList));
+        parkingEmployeeList.add(new SmartParkingBoy(parkingLotList));
+
+        ParkingLotManager parkingLotManager = new ParkingLotManager(parkingLotLists);
+        //when
+        parkingLotManager.addNewParkingBoy(new SuperSmartParkingBoy(parkingLotList));
+
+        //then
+        assertEquals(2, parkingEmployeeList.size());
+    }
+
 
     @Test
     public void should_return_car_park_at_first_parking_lot_when_parking_boy_parks_a_car_given_two_parking_lot() {
@@ -141,12 +161,11 @@ class ParkingLotManagerTest {
         Car secondCar = new Car();
 
         ParkingLotManager parkingLotManager = new ParkingLotManager(parkingLotLists);
-        ParkingBoyList parkingBoyList = new ParkingBoyList(parkingLotManager);
 
         //when
         parkingLotManager.park(car);
         ParkingTicket parkingTicket2 = parkingLotManager.park(secondCar);
-        StringBuffer currentCarLocation = new StringBuffer();
+
         currentCarLocation.append(parkingLotManager.getCurrentLocation(parkingLotLists, parkingTicket2));
 
         //then
@@ -156,23 +175,33 @@ class ParkingLotManagerTest {
         assertEquals("ParkingLot Number: 1", currentCarLocation.toString());
     }
 
-    @Test
-    public void should_return_parking_boy_list_when_parking_lot_manager_add_new_parking_boy_given_there_is_parking_boy_list() {
-        //given
-        List<ParkingLot> parkingLotMapList = new ArrayList<>();
-        parkingLotMapList.add(new ParkingLot(2));
 
-        ParkingLotManager parkingLotManager = new ParkingLotManager(parkingLotMapList);
-        ParkingBoy newParkingBoy = new ParkingBoy(parkingLotMapList);
-        ParkingBoyList parkingBoyList = new ParkingBoyList(
-                new ParkingBoy(parkingLotMapList),
-                new SmartParkingBoy(parkingLotMapList),
-                new SuperSmartParkingBoy(parkingLotMapList));
-
-        //when
-        parkingLotManager.addNewParkingBoy(parkingBoyList, newParkingBoy);
-
-        //then
-        assertEquals(4, parkingBoyList.getParkingBoyList().size());
-    }
+//    @Test
+//    public void should_parking_ticket_at_first_parking_lot_when_parking_lot_manager_order_to_park_car_given_parking_employee_list() {
+//        //given
+//        List<ParkingLot> parkingLotLists = new ArrayList<>();
+//        parkingLotLists.add(new ParkingLot(0));
+////        parkingLotLists.add(new ParkingLot(10));
+//
+//        List<ParkingLot> parkingLotLists2 = new ArrayList<>();
+//        parkingLotLists2.add(new ParkingLot(8));
+//
+//        Car secondCar = new Car();
+//
+//        ParkingLotManager parkingLotManager = new ParkingLotManager(parkingLotLists);
+//
+//        List<ParkingEmployee> parkingEmployeeList = new ArrayList<>();
+//
+//        //when
+//        parkingLotManager.addNewParkingBoy(new SuperSmartParkingBoy(parkingLotLists));
+//        parkingLotManager.addNewParkingBoy(new SuperSmartParkingBoy(parkingLotLists));
+//        ParkingTicket parkingTicket1 = parkingLotManager.orderParkingBoyToPark(car);
+//        StringBuffer currentCarLocation = new StringBuffer();
+//        currentCarLocation.append(parkingLotManager.getCurrentLocation(parkingLotLists, parkingTicket1));
+//
+//        //then
+//        assertNotNull(parkingTicket1);
+//
+//        assertEquals("ParkingLot Number: 1", currentCarLocation.toString());
+//    }
 }

@@ -29,6 +29,9 @@ class ParkingBoyTest {
     @Test
     void should_return_a_parking_ticket_when_parking_given_a_car_to_parking_boy() {
         //given
+        ParkingLot newParkingLot = new ParkingLot(5);
+        ParkingLot newParkingLot2 = new ParkingLot(5);
+        List<ParkingLot> parkingLotList = Arrays.asList(newParkingLot, newParkingLot2);
         ParkingBoy parkingBoy = new ParkingBoy(parkingLotList);
 
         //when
